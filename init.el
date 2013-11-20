@@ -24,15 +24,6 @@
                '("marmalade" . "http://marmalade-repo.org/packages/") t)
   (add-to-list 'package-archives
 	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  ;; my packages
-  (setq my-packages
-	(append
-	 ;; list of packages we use straight from official recipes
-	 '(auto-complete
-	   rinari
-	   rspec-mode
-	   ruby-electric
-	   yasnippet)
   (el-get 'sync (append my-packages 
 	 (mapcar 'el-get-as-symbol (mapcar 'el-get-source-name el-get-sources)))))))
 
