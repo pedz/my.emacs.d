@@ -5,7 +5,10 @@
 ;; my recipes
 (setq el-get-sources
       '((:name magit
-      	       :before (global-set-key (kbd "C-x C-z") 'magit-status))))
+      	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
+	(:name cscope
+	       :type github
+	       :pkgname "pedz/cscope.el")))
 
 ;; my packages
 (setq my-packages '(auto-complete rspec-mode ruby-electric yasnippet))
