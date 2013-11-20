@@ -25,7 +25,7 @@
   (add-to-list 'package-archives
 	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (el-get 'sync (append my-packages 
-	 (mapcar 'el-get-as-symbol (mapcar 'el-get-source-name el-get-sources)))))))
+	 (mapcar 'el-get-as-symbol (mapcar 'el-get-source-name el-get-sources)))))
 
 ;; Set by emacs' customizing routines -- don't change directly
 (custom-set-variables
