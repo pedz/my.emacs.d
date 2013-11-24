@@ -200,5 +200,17 @@
 
 (global-set-key "\C-x/" 'point-to-register)
 (global-set-key "\C-xj" 'jump-to-register)
+
+;;;### (autoloads (prvm-activate) "prvm" "prvm.el" (21138 27996 0
+;;;;;;  0))
+;;; Generated autoloads from prvm.el
+
+(autoload 'prvm-activate "prvm" "\
+Call this to find the .prvmrc file and set emacs's environment up
+  to match
+
+\(fn)" t nil)
+
+;;;***
 
 (provide 'pedz)

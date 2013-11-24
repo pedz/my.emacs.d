@@ -1,5 +1,4 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/el-get/el-get"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/pedz"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
 ;; my recipes
@@ -19,8 +18,19 @@
 		    yasnippet
 		    ))
 
+;; Add rinari only if "bundle" is in our path or it won't install.
 (if (executable-find "bundle")
   (add-to-list 'my-packages 'rinari))
+
+;; Discovered that feature-mode (and possibly others) do not load the
+;; path to their snippets if snippet feature is not already enabled.
+;; So we force yasnippet to be the first package loaded.
+;; (add-to-list 'my-packages 'yasnippet)
+
+;; Move the customizable values off to their own file
+;; and load that file
+(setq custom-file "~/.emacs.d/customize.el")
+(load custom-file)
 
 (defun sync-packages ()
   "Synchronize packages"
@@ -34,43 +44,9 @@
 			(mapcar 'el-get-as-symbol (mapcar 'el-get-source-name el-get-sources))))
   (message "All packages are synchronized"))
 
-;; Set by emacs' customizing routines -- don't change directly
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-for-comint-mode t)
- '(ansi-color-names-vector ["black" "red" "green" "gold" "blue" "magenta" "darkturquoise" "dark green"])
- '(case-fold-search nil)
- '(display-buffer-reuse-frames t)
- '(display-time-mail-file (quote none))
- '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
- '(ido-enable-tramp-completion nil)
- '(ido-mode (quote both) nil (ido))
- '(inhibit-startup-screen t)
- '(js2-global-externs (quote ("jQuery" "$")))
- '(js2-include-gears-externs nil)
- '(js2-include-rhino-externs nil)
- '(major-mode (quote text-mode))
- '(mmm-submode-decoration-level 2)
- '(mumamo-chunk-coloring 1 nil nil "let most of the page be uncolored and color only the sub-chunks")
- '(ns-alternate-modifier (quote super))
- '(ns-command-modifier (quote meta))
- '(nxhtml-skip-welcome nil nil nil "Shh!!!")
- '(rails-ws:default-server-type "webrick")
- '(rspec-use-bundler-when-possible nil)
- '(rspec-use-rake-flag nil)
- '(save-abbrevs nil)
- '(shell-prompt-pattern ".+@.+<[0-9]+> on .*
-")
- '(split-width-threshold 1600)
- '(tool-bar-mode nil)
- '(user-full-name "Perry Smith")
- '(user-mail-address "pedz@easesoftware.com")
- '(vc-ignore-dir-regexp "\\`\\([\\/][\\/]\\|/\\.\\.\\./\\|/net/\\|/afs/\\)\\'")
- '(x-select-enable-primary t))
-
+;; This piece of code sucks over el-get if it is not present on the
+;; system and then calls sync-packages which will suck over all the
+;; other packages as well.
 (if (require 'el-get nil t)
     (sync-packages)
   (url-retrieve
@@ -82,4 +58,13 @@
        (setq el-get-verbose t)
        (sync-packages)))))
 
+;; The rest of my set up.
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/pedz"))
+
+;; Lets go ahead and turn on yasnippet mode.  We have to add the
+;; feature mode snippet directory since it does not do it
+;; automatically
+(add-to-list 'yas-snippet-dirs feature-snippet-directory)
+(rspec-install-snippets)		; ditto for rspec
+(yas-global-mode 1)
 (require 'pedz)
