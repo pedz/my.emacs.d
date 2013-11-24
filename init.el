@@ -11,7 +11,7 @@
 	       :pkgname "pedz/cscope.el")))
 
 ;; my packages
-(setq my-packages '(auto-complete rspec-mode ruby-electric yasnippet))
+(setq my-packages '(auto-complete feature-mode rspec-mode ruby-electric yasnippet))
 
 (if (executable-find "bundle")
   (add-to-list 'my-packages 'rinari))
