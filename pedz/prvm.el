@@ -54,3 +54,5 @@
 	  (prvm-parse-line (buffer-string))
 	  (widen)
 	  (beginning-of-line 2))))))
+
+(provide 'prvm)
