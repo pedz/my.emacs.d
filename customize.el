@@ -11,7 +11,7 @@
  '(display-buffer-reuse-frames t)
  '(display-time-mail-file (quote none))
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
- '(feature-cucumber-command "cucumber CUCUMBER_OPTS=\"{options}\" FEATURE=\"{feature}\"")
+ '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(ido-enable-tramp-completion nil)
  '(ido-mode (quote both) nil (ido))
  '(inhibit-startup-screen t)
