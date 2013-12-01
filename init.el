@@ -60,10 +60,12 @@
 		    el-get
 		    package
 		    yasnippet
+		    yasnippet-ruby-mode
 		    auto-complete
 		    feature-mode
 		    rspec-mode
 		    ruby-electric
+		    yari
 		    ))
 
 ;; Add rinari only if "bundle" is in our path or it won't install.
