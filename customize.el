@@ -12,8 +12,6 @@
  '(display-time-mail-file (quote none))
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
- '(ido-enable-tramp-completion nil)
- '(ido-mode (quote both) nil (ido))
  '(inhibit-startup-screen t)
  '(js2-global-externs (quote ("jQuery" "$")))
  '(js2-include-gears-externs nil)
