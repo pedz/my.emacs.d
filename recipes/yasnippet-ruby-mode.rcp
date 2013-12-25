@@ -5,7 +5,12 @@
        :pkgname "pedz/yasnippet-ruby-mode"
        :branch "rearranged"
        :post-init (eval-after-load 'yasnippet
-		    '(progn
-		       (message "adding ruby mode to snippets")
-		       (add-to-list 'yas-snippet-dirs
-				    (concat el-get-dir (file-name-as-directory "yasnippet-ruby-mode"))))))
+		    '(let ((elt (concat el-get-dir "yasnippet-ruby-mode")))
+		       (message "yasnippet-ruby-mode adding %s to snippets" elt)
+		       (unless (listp yas-snippet-dirs)
+			 (setq yas-snippet-dirs (list yas-snippet-dirs)))
+		       (unless (member elt yas-snippet-dirs)
+			 (if (null yas-snippet-dirs)
+			     (setq yas-snippet-dirs (list elt))
+			   (push elt (cdr yas-snippet-dirs))))
+		       (yas-load-directory elt t))))

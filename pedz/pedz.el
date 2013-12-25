@@ -48,8 +48,6 @@
 ;;; It may be better to make this a minor mode of something but until
 ;;; there is a class, lets just stick these into the global map
 ;;;
-(global-set-key [mouse-3] 'x-c-mode-cscope-func)
-(global-set-key [double-mouse-3] 'x-c-mode-cscope-sym)
 
 ;;
 ;; My own map of things is in this map and I hook the map to \C-\\ for now
@@ -69,14 +67,8 @@
 (define-key personal-map "z" 'put-pmr)
 (define-key personal-map "Z" 'put-all-pmr)
 (define-key personal-map "\C-a" 'free-pmr)
-(define-key personal-map "F" 'cscope-find-file)
 (define-key personal-map "b" 'bury-buffer)
-(define-key personal-map "c" 'cscope-find-func-call)
-(define-key personal-map "f" 'cscope-find-func)
-(define-key personal-map "g" 'cscope-find-goodies)
-(define-key personal-map "i" 'cscope-find-file-include)
 (define-key personal-map "\C-s" 'spew-find-symbol)
-(define-key personal-map "s" 'cscope-find-symbol)
 (define-key personal-map "t" (function
                               (lambda ()
                                 (interactive)

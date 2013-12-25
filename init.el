@@ -9,6 +9,18 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/pedz"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
+;; Need this very early on
+(defun yas-add-to-dirs ( elt )
+  "Add ELT to `yas-snippet-dirs'"
+  (unless (listp yas-snippet-dirs)
+    (setq yas-snippet-dirs (list yas-snippet-dirs)))
+  (unless (member elt yas-snippet-dirs)
+    (if (null yas-snippet-dirs)
+	(setq yas-snippet-dirs (list elt))
+      (push elt (cdr yas-snippet-dirs))))
+  (yas-load-directory elt t)
+  yas-snippet-dirs)
+
 ;;;
 ;;; Create needed auto execs so as things get loaded, items are
 ;;; cusomized as we want them.
@@ -29,14 +41,14 @@
 (eval-after-load 'rspec-mode
   '(progn
      (message "calling rspec-install-snippets")
-     (rspec-install-snippets)))
+     (yas-add-to-dirs rspec-snippets-dir)))
 
 ;; we want the snippets in feature-mode
 (eval-after-load 'feature-mode
   '(progn
      (message "adding feature snippet directory")
      (require 'yasnippet)
-     (add-to-list 'yas-snippet-dirs feature-snippet-directory)))
+     (yas-add-to-dirs feature-snippet-directory)))
 
 ;; Add in other package repositories
 (eval-after-load 'package
@@ -53,19 +65,27 @@
       	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
 	(:name cscope
 	       :type github
-	       :pkgname "pedz/cscope.el")))
+	       :pkgname "pedz/cscope.el"
+	       :post-init (add-hook 'c-initialization-hook
+				    (lambda ()
+				      (require 'cscope))))))
 
 ;; my packages
 (setq my-packages '(
+		    ;; el-get must be first
 		    el-get
+		    ;; package needs to be second
 		    package
+		    ;; load yasnippet before any other package that
+		    ;; adds to the snippet dir list.
 		    yasnippet
-		    yasnippet-ruby-mode
+		    ;; Rest of the list
 		    auto-complete
 		    feature-mode
 		    rspec-mode
 		    ruby-electric
 		    yari
+		    yasnippet-ruby-mode
 		    ))
 
 ;; Add rinari only if "bundle" is in our path or it won't install.
