@@ -1,13 +1,22 @@
 ;; Nifty for debugging load issues and sequences
 ;; This puts out a Loading message all the time
-(setq force-load-messages t)
-(defadvice require (before load-log activate)
-  (message "Requiring %s" (ad-get-arg 0)))
+;; (setq force-load-messages t)
+;; (defadvice require (before load-log activate)
+;;   (message "Requiring %s" (ad-get-arg 0)))
+
+;; subr.el sets this to the constant "~/.emacs.d/".  I want it to
+;; track where the init file came from.  This constrains the path to
+;; the init file some.
+(setq user-emacs-directory (file-name-directory
+			    (if user-init-file
+				user-init-file
+			      load-file-name)))
+
+;; Set up minimal load-path
+(dolist (dir '( "el-get/el-get" "pedz" "." ))
+  (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
 ;; Add in el-get's directory and the .emacs.d directory.
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/el-get/el-get"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/pedz"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
 ;; Need this very early on
 (defun yas-add-to-dirs ( elt )
@@ -29,7 +38,7 @@
 (eval-after-load 'el-get
   '(progn
      (message "adding to el-get's recipes")
-     (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")))
+     (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory))))
 
 ;; Lets go ahead and turn on yasnippet mode.
 (eval-after-load 'yasnippet
@@ -50,15 +59,6 @@
      (require 'yasnippet)
      (yas-add-to-dirs feature-snippet-directory)))
 
-;; Add in other package repositories
-(eval-after-load 'package
-  '(progn
-     (message "adding package directories")
-     (add-to-list 'package-archives
-		  '("marmalade" . "http://marmalade-repo.org/packages/") t)
-     (add-to-list 'package-archives
-		  '("melpa" . "http://melpa.milkbox.net/packages/") t)))
-     
 ;; my recipes
 (setq el-get-sources
       '((:name magit
@@ -96,7 +96,7 @@
 
 ;; Move the customizable values off to their own file
 ;; and load that file
-(setq custom-file "~/.emacs.d/customize.el")
+(setq custom-file (expand-file-name "customize.el" user-emacs-directory))
 (load custom-file)
 
 (defun sync-packages ()
@@ -120,12 +120,5 @@
        (eval-print-last-sexp)
        (setq el-get-verbose t)
        (sync-packages)))))
-
-;; #### put this back?
-;; (add-to-list 'load-path (expand-file-name "~/yari.el"))
-;; (add-to-list 'load-path (expand-file-name "~/helm"))
-;; (require 'helm-config)
-;; (require 'helm)
-;; (require 'yari)
 
 (require 'pedz)

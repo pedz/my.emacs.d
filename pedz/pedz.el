@@ -5,24 +5,6 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-(setq auto-save-interval 1000
-      auto-save-list-file-prefix "~/.save/saves-"
-      backup-by-copying-when-linked t
-      backup-by-copying-when-mismatch t
-      delete-old-versions t
-      display-time-24hr-format t
-      display-time-day-and-date t
-      executable-query nil
-      inhibit-startup-message t
-      kept-new-versions 4
-      kept-old-versions 4
-      lpr-command "lpr"
-      mail-default-reply-to "pedz@austin.ibm.com"
-      mail-self-blind t
-      mail-archive-file-name nil
-      trim-versions-without-asking t
-      version-control t)
-
 ;; real apropos
 (define-key help-map "a" 'apropos)
 
@@ -31,23 +13,19 @@
   (interactive)
   (kill-line 0))
 
-;; setup minibuffer maps to have BSD style line editing
-(let ((tlist (list minibuffer-local-completion-map
-                   minibuffer-local-map
-                   minibuffer-local-must-match-map
-                   minibuffer-local-ns-map))
-      tmap)
-  (while tlist
-    (progn
-      (setq tmap (car tlist))
-      (setq tlist (cdr tlist))
-      (define-key tmap "\C-w" 'backward-kill-word)
-      (define-key tmap "\C-u" 'backward-kill-line))))
-
-;;;
-;;; It may be better to make this a minor mode of something but until
-;;; there is a class, lets just stick these into the global map
-;;;
+;; setup minibuffer maps to have BSD style TTY line editing
+(dolist (tmap (list
+	       minibuffer-local-completion-map
+	       minibuffer-local-filename-completion-map
+	       minibuffer-local-filename-must-match-map
+	       minibuffer-local-isearch-map
+	       minibuffer-local-map
+	       minibuffer-local-must-match-filename-map
+	       minibuffer-local-must-match-map
+	       minibuffer-local-ns-map
+	       minibuffer-local-shell-command-map))
+  (define-key tmap "\C-w" 'backward-kill-word)
+  (define-key tmap "\C-u" 'backward-kill-line))
 
 ;;
 ;; My own map of things is in this map and I hook the map to \C-\\ for now
@@ -63,12 +41,7 @@
 (define-key personal-map "\C-g" 'goto-line)
 (define-key personal-map "\C-k" 'compile)
 (define-key personal-map "\C-v" 'view-file)
-(define-key personal-map "\C-z" 'log-pmr)
-(define-key personal-map "z" 'put-pmr)
-(define-key personal-map "Z" 'put-all-pmr)
-(define-key personal-map "\C-a" 'free-pmr)
 (define-key personal-map "b" 'bury-buffer)
-(define-key personal-map "\C-s" 'spew-find-symbol)
 (define-key personal-map "t" (function
                               (lambda ()
                                 (interactive)
@@ -78,11 +51,9 @@
                                    (interactive)
                                    (recenter 0))))
 (define-key personal-map "l" 'list-all-matching-lines)
+(define-key personal-map "\C-c" 'toggle-case-fold-search)
 
 (define-key global-map "\C-\\" personal-map)
-
-(define-key global-map [C-up] 'undo)
-(define-key global-map [C-left] personal-map)
 
 (defun list-all-matching-lines (regexp &optional nlines)
   (interactive "sList lines matching regexp: \nP")
@@ -91,29 +62,9 @@
     (occur regexp nlines)
     (goto-char here)))
 
-(setq shell-popd-regexp "popd\\|P"
-      shell-pushd-regexp "pushd\\|p"
-      shell-prompt-pattern ".+@.+<[0-9]+> on .*\n"
-      shell-mode-hook (function (lambda ()
-                                  (define-key shell-mode-map "\C-c\C-d" 'dirs))))
-
 (define-key global-map "\C-x\C-b" 'electric-buffer-list)
 
-;;
-;; toggle the case fold search flag
-;;
-(defun toggle-case-fold-search ()
-  "Toggles the case fold search flag"
-  (interactive)
-  (message "case-fold-search is now %s"
-           (prin1-to-string (setq case-fold-search (not case-fold-search)))))
-(define-key personal-map "\C-c" 'toggle-case-fold-search)
-
 (server-start)
-
-(if (or (eq window-system 'mac)
-        (eq window-system 'ns))
-    (setq mac-emulate-three-button-mouse t))
 
 (if (or (eq window-system 'x)
         (eq window-system 'ns))
@@ -123,14 +74,8 @@
 
 (if (eq window-system 'ns)
     (progn
-      (global-set-key [?\M-h] 'ns-do-hide-emacs)
-      (global-set-key [?\M-\s-h] 'ns-do-hide-others)))
-
-;; Put these lines uncommmented in your .emacs if you want C-r to refresh
-;; ange-ftp's cache whilst doing filename completion.
-;;
-(define-key minibuffer-local-completion-map "\C-r" 'ange-ftp-re-read-dir)
-(define-key minibuffer-local-must-match-map "\C-r" 'ange-ftp-re-read-dir)
+      (define-key global-map [?\M-h] 'ns-do-hide-emacs)
+      (define-key global-map [?\M-\s-h] 'ns-do-hide-others)))
 
 (display-time)
 
@@ -190,8 +135,12 @@
     ;; return the result
     result))
 
-(global-set-key "\C-x/" 'point-to-register)
-(global-set-key "\C-xj" 'jump-to-register)
+(define-key global-map "\C-x/" 'point-to-register)
+(define-key global-map "\C-xj" 'jump-to-register)
+
+;; Add shift-<arrow key> to move between windows
+(windmove-default-keybindings)
+
 
 ;;;### (autoloads (prvm-activate) "prvm" "prvm.el" (21138 27996 0
 ;;;;;;  0))

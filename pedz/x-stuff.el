@@ -53,17 +53,4 @@ variable in make-frame) what ever things it wants to"
 		 (cons 'mouse-color "grey"))))))
 	   
 
-  ;;;
-  ;;; We put the initial frame in the top left corner and make it the
-  ;;; whole screen but on the mac, that seems to confused the x server
-  ;;; so we do not do it.
-  ;;;
-  ;(setq initial-frame-alist
-;	(append default-frame-alist
-;		(if (not (string-match "^ppp[0-9]" x-display-name))
-;		    '((top . 5) (left . 5) (width . 83) (height . 1000))
-;		  nil))
-;		  )
-;		  )
-
 (provide 'x-stuff)
