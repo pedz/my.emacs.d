@@ -82,8 +82,10 @@
 		    ;; Rest of the list
 		    auto-complete
 		    feature-mode
+		    inf-ruby
 		    rspec-mode
 		    ruby-electric
+		    rvm
 		    yari
 		    yasnippet-ruby-mode
 		    ))
