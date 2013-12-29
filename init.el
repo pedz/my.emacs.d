@@ -82,6 +82,7 @@
 		    ;; Rest of the list
 		    auto-complete
 		    feature-mode
+		    helm
 		    inf-ruby
 		    rspec-mode
 		    ruby-electric

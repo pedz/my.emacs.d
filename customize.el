@@ -15,6 +15,7 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mail-file (quote none))
+ '(enable-recursive-minibuffers t)
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(inhibit-startup-screen t)

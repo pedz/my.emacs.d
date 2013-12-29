@@ -1,4 +1,0 @@
-(:name yari
-       :type github
-       :pkgname "pedz/yari.el"
-       :branch "buttons")
