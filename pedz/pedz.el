@@ -17,10 +17,8 @@
 (dolist (tmap (list
 	       minibuffer-local-completion-map
 	       minibuffer-local-filename-completion-map
-	       minibuffer-local-filename-must-match-map
 	       minibuffer-local-isearch-map
 	       minibuffer-local-map
-	       minibuffer-local-must-match-filename-map
 	       minibuffer-local-must-match-map
 	       minibuffer-local-ns-map
 	       minibuffer-local-shell-command-map))
@@ -66,6 +64,7 @@
 
 (server-start)
 
+(declare-function setup-x "x-stuff" ())
 (if (or (eq window-system 'x)
         (eq window-system 'ns))
     (progn
@@ -134,6 +133,9 @@
      (directory-files-and-attributes dir nil nil t))
     ;; return the result
     result))
+
+(eval-after-load 'grep
+  '(add-to-list 'grep-files-aliases (cons "rails" "*.rb *.erb *.js *.css *.scss")))
 
 (define-key global-map "\C-x/" 'point-to-register)
 (define-key global-map "\C-xj" 'jump-to-register)

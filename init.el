@@ -67,8 +67,7 @@
 	       :type github
 	       :pkgname "pedz/cscope.el"
 	       :post-init (add-hook 'c-initialization-hook
-				    (lambda ()
-				      (require 'cscope))))))
+				    (lambda () (require 'cscope))))))
 
 ;; my packages
 (setq my-packages '(

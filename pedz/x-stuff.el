@@ -25,11 +25,10 @@
   "before-make-frame-hook is set to this so this is called before the
 frame is created.  This function appends to parameters (the local
 variable in make-frame) what ever things it wants to"
-  (setq parameters
-	(append parameters
-		(list (cons 'background-color (pick-random-color))))))
+  (add-to-list 'parameters
+	       (list (cons 'background-color (pick-random-color))) t))
 
-(setq before-make-frame-hook 'x-alter-params)
+(add-hook 'before-make-frame-hook 'x-alter-params)
 
 (defun setup-x ()
   "Simple sequence to setup X for me"
