@@ -18,17 +18,19 @@
 (defun pick-random-color ()
   "Picks a random color from favorite-colors"
   ;; currently set to just black...
-  (or "black"
-      (nth (random (length favorite-colors) favorite-colors))))
+  (nth (random (length favorite-colors)) favorite-colors))
 
-(defun x-alter-params ()
-  "before-make-frame-hook is set to this so this is called before the
-frame is created.  This function appends to parameters (the local
-variable in make-frame) what ever things it wants to"
-  (add-to-list 'parameters
-	       (list (cons 'background-color (pick-random-color))) t))
-
-(add-hook 'before-make-frame-hook 'x-alter-params)
+;; This no longer works plus I'm not sure I want it.  The frame is
+;; made via an internal variable called params so I think I could make
+;; it work but I'll leave it for anotehr day.
+;;
+;; (defun x-alter-params ()
+;;   "before-make-frame-hook is set to this so this is called before the
+;; frame is created.  This function appends to parameters (the local
+;; variable in make-frame) what ever things it wants to"
+;;   (setq parameters (append parameters (list (cons 'background-color (pick-random-color))))))
+;;
+;; (add-hook 'before-make-frame-hook 'x-alter-params)
 
 (defun setup-x ()
   "Simple sequence to setup X for me"
