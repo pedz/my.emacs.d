@@ -18,6 +18,7 @@
  '(enable-recursive-minibuffers t)
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
+ '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
  '(inhibit-startup-screen t)
  '(js2-global-externs (quote ("jQuery" "$")))
  '(js2-include-gears-externs nil)
