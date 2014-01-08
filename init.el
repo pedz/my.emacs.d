@@ -16,8 +16,6 @@
 (dolist (dir '( "el-get/el-get" "pedz" "." ))
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
-;; Add in el-get's directory and the .emacs.d directory.
-
 ;; Need this very early on
 (defun yas-add-to-dirs ( elt )
   "Add ELT to `yas-snippet-dirs'"
@@ -67,7 +65,12 @@
 	       :type github
 	       :pkgname "pedz/cscope.el"
 	       :post-init (add-hook 'c-initialization-hook
-				    (lambda () (require 'cscope))))))
+				    (lambda () (require 'cscope))))
+	(:name gsa-cscope
+	       :type github
+	       :pkgname "pedz/gsa-cscope")
+	(:name rvm
+	       :lazy t)))
 
 ;; my packages
 (setq my-packages '(
@@ -85,7 +88,6 @@
 		    inf-ruby
 		    rspec-mode
 		    ruby-electric
-		    rvm
 		    yari
 		    yasnippet-ruby-mode
 		    ))

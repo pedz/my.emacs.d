@@ -3,3 +3,4 @@ auto-save-list
 backup
 bookmarks
 *.elc
+gsa_match_cache.el
