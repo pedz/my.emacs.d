@@ -4,3 +4,4 @@ backup
 bookmarks
 *.elc
 gsa_match_cache.el
+eshell
