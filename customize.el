@@ -7,6 +7,7 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-for-comint-mode t)
  '(ansi-color-names-vector ["black" "red" "green" "gold" "blue" "magenta" "darkturquoise" "dark green"])
+ '(backup-by-copying t)
  '(backup-by-copying-when-linked t)
  '(backup-directory-alist (list (cons "." (expand-file-name "backup" user-emacs-directory))))
  '(case-fold-search nil)
