@@ -13,7 +13,9 @@
 			      load-file-name)))
 
 ;; Set up minimal load-path
-(dolist (dir '( "el-get/el-get" "pedz" "." ))
+;; (dolist (dir '( "el-get/el-get" "pedz" "." ))
+;;   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
+(dolist (dir '( "el-get/el-get" "pedz" ))
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
 ;; Need this very early on
