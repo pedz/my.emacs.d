@@ -233,6 +233,14 @@ Currently the `mailto' and `txmt' schemes are supported."
 		 )) (add-to-list 'align-rules-list ar t)))
 
 
+;;; setup yari and yari-helm because it needs helm which I don't load
+;;; usually
+(defun yari-bind-key ()
+  (require 'helm)
+  (local-set-key [f1] 'yari-helm))
+
+(add-hook 'ruby-mode-hook 'yari-bind-key)
+
 ;;;### (autoloads (prvm-activate) "prvm" "prvm.el" (21138 27996 0
 ;;;;;;  0))
 ;;; Generated autoloads from prvm.el
@@ -244,5 +252,10 @@ Call this to find the .prvmrc file and set emacs's environment up
 \(fn)" t nil)
 
 ;;;***
+
+
+;;; setup hook to execute prvm-activate after a bookmark jump.
+(add-hook 'bookmark-after-jump-hook 'prvm-activate)
+
 
 (provide 'pedz)

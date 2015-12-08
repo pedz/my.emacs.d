@@ -6,10 +6,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-for-comint-mode t)
- '(ansi-color-names-vector ["black" "red" "green" "gold" "blue" "magenta" "darkturquoise" "dark green"])
+ '(ansi-color-names-vector
+   ["black" "red" "green" "gold" "blue" "magenta" "darkturquoise" "dark green"])
  '(backup-by-copying t)
  '(backup-by-copying-when-linked t)
- '(backup-directory-alist (list (cons "." (expand-file-name "backup" user-emacs-directory))))
+ '(backup-directory-alist
+   (list
+    (cons "."
+	  (expand-file-name "backup" user-emacs-directory))))
  '(case-fold-search nil)
  '(delete-old-versions t)
  '(display-buffer-reuse-frames t)
@@ -21,6 +25,12 @@
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
  '(inhibit-startup-screen t)
+ '(initial-frame-alist
+   (quote
+    ((top . 23)
+     (left . 607)
+     (width . 102)
+     (height . 69))))
  '(js2-global-externs (quote ("jQuery" "$")))
  '(js2-include-gears-externs nil)
  '(js2-include-rhino-externs nil)
@@ -33,12 +43,32 @@
  '(ns-alternate-modifier (quote super))
  '(ns-command-modifier (quote meta))
  '(nxhtml-skip-welcome nil nil nil "Shh!!!")
- '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("melpa" . "http://melpa.milkbox.net/packages/"))))
+ '(package-archives
+   (quote
+    (("gnu" . "http://elpa.gnu.org/packages/")
+     ("marmalade" . "http://marmalade-repo.org/packages/")
+     ("melpa" . "http://melpa.milkbox.net/packages/"))))
  '(rails-ws:default-server-type "webrick")
  '(rspec-use-bundler-when-possible nil)
  '(rspec-use-rake-flag nil)
  '(rspec-use-rake-when-possible nil)
- '(safe-local-variable-values (quote ((encoding . utf-8) (eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook" (add-hook (quote write-contents-functions) (lambda nil (delete-trailing-whitespace) nil)) (require (quote whitespace)) "Sometimes the mode needs to be toggled off and on." (whitespace-mode 0) (whitespace-mode 1)) (whitespace-line-column . 80) (whitespace-style face trailing lines-tail) (require-final-newline . t))))
+ '(safe-local-variable-values
+   (quote
+    ((encoding . utf-8)
+     (eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
+	   (add-hook
+	    (quote write-contents-functions)
+	    (lambda nil
+	      (delete-trailing-whitespace)
+	      nil))
+	   (require
+	    (quote whitespace))
+	   "Sometimes the mode needs to be toggled off and on."
+	   (whitespace-mode 0)
+	   (whitespace-mode 1))
+     (whitespace-line-column . 80)
+     (whitespace-style face trailing lines-tail)
+     (require-final-newline . t))))
  '(save-abbrevs nil)
  '(shell-popd-regexp "popd\\|P")
  '(shell-prompt-pattern ".+@.+<[0-9]+> on .*
