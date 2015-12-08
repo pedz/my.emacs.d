@@ -153,6 +153,37 @@
 (windmove-default-keybindings)
 
 
+;;; Setup doxymacs for Magicbook.
+;;
+;; We assume that if /usr/local/share/emacs/site-lisp exists then we
+;; want to set up to use doxymacs for all C files.
+
+(if (file-directory-p "/usr/local/share/emacs/site-lisp")
+    (progn
+      (declare-function doxymacs-mode "doxymacs"  (&optional arg))
+      (declare-function doxymacs-font-lock "doxymacs" nil)
+      (autoload 'doxymacs-mode "doxymacs"
+	"Minor mode for using/creating Doxygen documentation.
+To submit a problem report, request a feature or get support, please
+visit doxymacs' homepage at http://doxymacs.sourceforge.net/.
+
+To see what version of doxymacs you are running, enter
+`\\[doxymacs-version]'.
+
+In order for `doxymacs-lookup' to work you will need to customise the
+variable `doxymacs-doxygen-dirs'.
+
+Key bindings:
+\\{doxymacs-mode-map}" t)
+      (autoload 'doxymacs-font-lock "doxymacs"
+	"Turn on font-lock for Doxygen keywords.")
+      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+      (add-hook 'c-mode-common-hook 'doxymacs-mode)
+      (defun my-doxymacs-font-lock-hook ()
+	(if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
+	    (doxymacs-font-lock)))
+      (add-hook 'font-lock-mode-hook 'my-doxymacs-font-lock-hook)))
+
 (require 'url)
 
 (defun mac-ae-get-url (event)

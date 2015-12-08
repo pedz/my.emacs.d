@@ -13,7 +13,9 @@
 			      load-file-name)))
 
 ;; Set up minimal load-path
-(dolist (dir '( "el-get/el-get" "pedz" "." ))
+;; (dolist (dir '( "el-get/el-get" "pedz" "." ))
+;;   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
+(dolist (dir '( "el-get/el-get" "pedz" ))
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
 ;; Need this very early on
@@ -48,7 +50,8 @@
 (eval-after-load 'rspec-mode
   '(progn
      (message "calling rspec-install-snippets")
-     (yas-add-to-dirs rspec-snippets-dir)))
+     (yas-add-to-dirs rspec-snippets-dir)
+     (add-hook 'dired-mode-hook 'rspec-dired-mode)))
 
 ;; we want the snippets in feature-mode
 (eval-after-load 'feature-mode
@@ -66,6 +69,10 @@
 	       :pkgname "pedz/cscope.el"
 	       :post-init (add-hook 'c-initialization-hook
 				    (lambda () (require 'cscope))))
+	(:name js2-mode
+	       :post-init (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+	(:name jquery-doc
+	       :post-init (add-hook 'js2-mode-hook 'jquery-doc-setup))
 	(:name gsa-cscope
 	       :type github
 	       :pkgname "pedz/gsa-cscope")
