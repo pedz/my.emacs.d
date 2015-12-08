@@ -15,6 +15,7 @@
     (cons "."
 	  (expand-file-name "backup" user-emacs-directory))))
  '(case-fold-search nil)
+ '(compare-ignore-whitespace t)
  '(delete-old-versions t)
  '(display-buffer-reuse-frames t)
  '(display-time-24hr-format t)
