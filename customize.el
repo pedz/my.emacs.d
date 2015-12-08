@@ -15,23 +15,32 @@
     (cons "."
 	  (expand-file-name "backup" user-emacs-directory))))
  '(case-fold-search nil)
- '(compare-ignore-whitespace t)
  '(delete-old-versions t)
  '(display-buffer-reuse-frames t)
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mail-file (quote none))
  '(enable-recursive-minibuffers t)
+ '(eval-expression-print-length nil)
+ '(eval-expression-print-level nil)
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
  '(inhibit-startup-screen t)
  '(initial-frame-alist
-   (quote
-    ((top . 23)
-     (left . 607)
-     (width . 102)
-     (height . 69))))
+   (cond
+    ((string= (car (x-display-list)) "spitfire.austin.ibm.com:3.0")
+     (quote
+      ((top . 0)
+       (left . 0)
+       (width . 90)
+       (height . 83))))
+    ((string= (car (x-display-list)) "Mac")
+     (quote
+      ((top . 23)
+       (left . 607)
+       (width . 102)
+       (height . 69))))))
  '(js2-global-externs (quote ("jQuery" "$")))
  '(js2-include-gears-externs nil)
  '(js2-include-rhino-externs nil)
