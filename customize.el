@@ -29,12 +29,12 @@
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (cond
-    ((string= (car (x-display-list)) "spitfire.austin.ibm.com:3.0")
+    ((string-match "spitfire.*:3" (car (x-display-list)))
      (quote
       ((top . 0)
        (left . 0)
        (width . 90)
-       (height . 83))))
+       (height . 99))))
     ((string= (car (x-display-list)) "Mac")
      (quote
       ((top . 23)
