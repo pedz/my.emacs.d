@@ -8,6 +8,9 @@
 ;; real apropos
 (define-key help-map "a" 'apropos)
 
+;; unset level so shell's prompt says "1"
+(setenv "level" nil)
+
 (defun backward-kill-line ()
   "Kills the line from point back to the beginning of the line"
   (interactive)
