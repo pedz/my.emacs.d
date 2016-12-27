@@ -62,7 +62,11 @@
 
 ;; my recipes
 (setq el-get-sources
-      '((:name magit
+      '((:name dash)
+	(:name with-editor
+	       :type github
+	       :pkgname "magit/with-editor")
+	(:name magit
       	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
 	(:name cscope
 	       :type github
@@ -94,9 +98,8 @@
 		    helm
 		    inf-ruby
 		    rspec-mode
-		    ruby-electric
+		    ;; ruby-electric
 		    yari
-		    yasnippet-ruby-mode
 		    ))
 
 ;; Add rinari only if "bundle" is in our path or it won't install.

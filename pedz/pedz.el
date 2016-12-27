@@ -154,6 +154,12 @@
 
 ;; Add shift-<arrow key> to move between windows
 (windmove-default-keybindings)
+
+;;; which hack to show red colors that snapper puts out.
+(defun display-ansi-colors ()
+  (require 'ansi-color)
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
 
 
 ;;; Setup doxymacs for Magicbook.
@@ -216,34 +222,6 @@ Currently the `mailto' and `txmt' schemes are supported."
       (t (mac-resume-apple-event ae t)))))
 
 
-;;;
-;;; Rules to help with alignments in Ruby mode
-;;;
-(defvar align-rules-list)
-(eval-after-load 'align
-  '(dolist (ar '((ruby-migration-column-names
-		  (regexp . "\\s-*t\\.\\(\\s_\\|\\sw\\)+\\( +\\)")
-		  (group . 2)
-		  (column . 20)
-		  (separate . "\\<\\(do\\|end\\)\\>")
-		  (modes . (list 'ruby-mode))
-		  )
-		 (ruby-migration-column-attributes
-		  (regexp . ",\\(\\s-+\\)")
-		  (repeat . t)
-		  (modes . (list 'ruby-mode))
-		  )
-		 )) (add-to-list 'align-rules-list ar t)))
-
-
-;;; setup yari and yari-helm because it needs helm which I don't load
-;;; usually
-(defun yari-bind-key ()
-  (require 'helm)
-  (local-set-key [f1] 'yari-helm))
-
-(add-hook 'ruby-mode-hook 'yari-bind-key)
-
 ;;;### (autoloads (prvm-activate) "prvm" "prvm.el" (21138 27996 0
 ;;;;;;  0))
 ;;; Generated autoloads from prvm.el
@@ -260,5 +238,5 @@ Call this to find the .prvmrc file and set emacs's environment up
 ;;; setup hook to execute prvm-activate after a bookmark jump.
 (add-hook 'bookmark-after-jump-hook 'prvm-activate)
 
-
+(require 'ruby-setup)
 (provide 'pedz)

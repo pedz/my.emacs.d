@@ -5,6 +5,7 @@
 (defvar prvm-env-list
   '(("GEM_HOME" . setenv)
     ("GEM_PATH" . setenv)
+    ("RUBYOPT"  . setenv)
     ("PATH" . prvm-process-path))
   "This is a list of interesting environment variables that we want to
   pull up into emacs so it runs various commands correctly.")
