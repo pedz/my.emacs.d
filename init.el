@@ -80,8 +80,7 @@
 	(:name gsa-cscope
 	       :type github
 	       :pkgname "pedz/gsa-cscope")
-	(:name rvm
-	       :lazy t)))
+	))
 
 ;; my packages
 (setq my-packages '(
