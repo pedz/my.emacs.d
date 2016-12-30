@@ -7,6 +7,13 @@
 ;; subr.el sets this to the constant "~/.emacs.d/".  I want it to
 ;; track where the init file came from.  This constrains the path to
 ;; the init file some.
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (setq user-emacs-directory (file-name-directory
 			    (if user-init-file
 				user-init-file
@@ -102,8 +109,11 @@
 		    ))
 
 ;; Add rinari only if "bundle" is in our path or it won't install.
-(if (executable-find "bundle")
-  (add-to-list 'my-packages 'rinari t))
+;;
+;; This would not build last time I tried Thu Dec 29 18:50:13 CST 2016
+;;
+;; (if (executable-find "bundle")
+;;   (add-to-list 'my-packages 'rinari t))
 
 ;; Move the customizable values off to their own file
 ;; and load that file
