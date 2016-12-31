@@ -56,7 +56,7 @@ turning on auto fill mode within code comments only."
   (setq paragraph-separate "[ \t]*#[ \t]*$")
   ;; Paragraphs start with YARD tags or list items
   (setq paragraph-start
-	(concatenate
+	(cl-concatenate
 	 'string
 	 "[ \t]*"		; some whitespace
 	 "#[ \t]*"		; a # character followed by whitespace

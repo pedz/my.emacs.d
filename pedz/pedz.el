@@ -146,6 +146,7 @@
     ;; return the result
     result))
 
+(eval-when-compile (defvar grep-files-aliases))
 (eval-after-load 'grep
   '(add-to-list 'grep-files-aliases (cons "rails" "*.rb *.erb *.js *.css *.scss")))
 
@@ -157,8 +158,8 @@
 
 ;;; which hack to show red colors that snapper puts out.
 (defun display-ansi-colors ()
-  (require 'ansi-color)
   (interactive)
+  (require 'ansi-color)
   (ansi-color-apply-on-region (point-min) (point-max)))
 
 
@@ -203,7 +204,7 @@ Currently the `mailto' and `txmt' schemes are supported."
 	 (the-text (mac-ae-text ae))
 	 (parsed-url (url-generic-parse-url the-text))
 	 (the-url-type (url-type parsed-url)))
-    (case (intern the-url-type)
+    (cl-case (intern the-url-type)
       (mailto
        (progn
 	 (url-mailto parsed-url)
@@ -238,5 +239,6 @@ Call this to find the .prvmrc file and set emacs's environment up
 ;;; setup hook to execute prvm-activate after a bookmark jump.
 (add-hook 'bookmark-after-jump-hook 'prvm-activate)
 
+(eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
 (provide 'pedz)
