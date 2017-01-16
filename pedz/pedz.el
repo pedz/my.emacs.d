@@ -1,4 +1,6 @@
-
+(eval-when-compile
+  (add-to-list 'load-path (concat (file-name-directory byte-compile-current-file)
+				  "../el-get/helm")))
 (put 'eval-expression 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
