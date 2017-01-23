@@ -69,10 +69,8 @@
 
 ;; my recipes
 (setq el-get-sources
-      '((:name dash)
-	(:name with-editor
-	       :type github
-	       :pkgname "magit/with-editor")
+      '((:name helm
+	       :post-init nil)
 	(:name magit
       	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
 	(:name cscope
@@ -88,6 +86,8 @@
 	       :type github
 	       :pkgname "pedz/gsa-cscope")
 	))
+
+;;; (debug-on-entry 'helm-mode)
 
 ;; my packages
 (setq my-packages '(
@@ -121,11 +121,12 @@
 (load custom-file)
 
 (defun sync-packages ()
-  "Synchronize packages"
+  "Synchronize el-get packages"
   (interactive)
   (message "Starting sync")
   (el-get 'sync (append my-packages 
-			(mapcar 'el-get-as-symbol (mapcar 'el-get-source-name el-get-sources))))
+			(mapcar 'el-get-as-symbol
+				(mapcar 'el-get-source-name el-get-sources))))
   (message "All packages are synchronized"))
 
 ;; This piece of code sucks over el-get if it is not present on the

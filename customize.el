@@ -6,7 +6,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(Info-default-directory-list
-   (delq nil (mapcar (lambda (x) (and (file-executable-p x) x)) Info-default-directory-list)))
+   (delq nil
+	 (mapcar
+	  (lambda
+	    (x)
+	    (and
+	     (file-executable-p x)
+	     x))
+	  Info-default-directory-list)))
  '(ac-modes
    (quote
     (emacs-lisp-mode lisp-mode lisp-interaction-mode slime-repl-mode go-mode java-mode malabar-mode clojure-mode clojurescript-mode scala-mode scheme-mode ocaml-mode tuareg-mode coq-mode haskell-mode agda-mode agda2-mode perl-mode cperl-mode python-mode ruby-mode lua-mode tcl-mode ecmascript-mode javascript-mode js-mode js2-mode php-mode css-mode scss-mode less-css-mode makefile-mode sh-mode fortran-mode f90-mode ada-mode xml-mode sgml-mode web-mode ts-mode sclang-mode verilog-mode qml-mode apples-mode)))
@@ -31,6 +38,7 @@
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
+ '(helm-command-prefix-key "C-c h")
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (cond
@@ -90,6 +98,7 @@
      (whitespace-style face trailing lines-tail)
      (require-final-newline . t))))
  '(save-abbrevs nil)
+ '(select-enable-primary t)
  '(shell-popd-regexp "popd\\|P")
  '(shell-prompt-pattern ".+@.+<[0-9]+> on .*
 ")
@@ -99,8 +108,7 @@
  '(user-full-name "Perry Smith")
  '(user-mail-address "pedz@easesoftware.com")
  '(vc-ignore-dir-regexp "\\`\\([\\/][\\/]\\|/\\.\\.\\./\\|/net/\\|/afs/\\)\\'")
- '(version-control t)
- '(x-select-enable-primary t))
+ '(version-control t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
