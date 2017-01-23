@@ -100,11 +100,11 @@
 		    yasnippet
 		    ;; Rest of the list
 		    auto-complete
+		    doxymacs
 		    feature-mode
 		    helm
 		    inf-ruby
 		    rspec-mode
-		    ;; ruby-electric
 		    yari
 		    ))
 
