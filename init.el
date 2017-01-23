@@ -127,7 +127,8 @@
   (el-get 'sync (append my-packages 
 			(mapcar 'el-get-as-symbol
 				(mapcar 'el-get-source-name el-get-sources))))
-  (message "All packages are synchronized"))
+  (message "All packages are synchronized")
+  (require 'pedz))
 
 ;; This piece of code sucks over el-get if it is not present on the
 ;; system and then calls sync-packages which will suck over all the
@@ -142,5 +143,3 @@
        (eval-print-last-sexp)
        (setq el-get-verbose t)
        (sync-packages)))))
-
-(require 'pedz)
