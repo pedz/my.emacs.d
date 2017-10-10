@@ -42,6 +42,14 @@
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (cond
+    ((string-match "localhost:.*"
+		   (car
+		    (x-display-list)))
+     (quote
+      ((top . 0)
+       (left . 0)
+       (width . 120)
+       (height . 99))))
     ((string-match "spitfire.*:3"
 		   (car
 		    (x-display-list)))

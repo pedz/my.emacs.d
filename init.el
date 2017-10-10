@@ -102,7 +102,6 @@
 		    auto-complete
 		    doxymacs
 		    feature-mode
-		    helm
 		    inf-ruby
 		    rspec-mode
 		    yari
