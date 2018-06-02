@@ -1,4 +1,4 @@
-(eval-when-compile
+(eval-when 'compile
   (add-to-list 'load-path (concat (file-name-directory byte-compile-current-file)
 				  "../el-get/helm")))
 (put 'eval-expression 'disabled nil)
@@ -248,5 +248,5 @@ Call this to find the .prvmrc file and set emacs's environment up
 
 (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
-(require 'helm-setup)
+;; (require 'helm-setup)
 (provide 'pedz)

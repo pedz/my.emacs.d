@@ -69,8 +69,8 @@
 
 ;; my recipes
 (setq el-get-sources
-      '((:name helm
-	       :post-init nil)
+      '(;; (:name helm
+	;;        :post-init nil)
 	(:name magit
       	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
 	(:name cscope
@@ -100,7 +100,7 @@
 		    yasnippet
 		    ;; Rest of the list
 		    auto-complete
-		    doxymacs
+		    ;; doxymacs
 		    feature-mode
 		    inf-ruby
 		    rspec-mode
