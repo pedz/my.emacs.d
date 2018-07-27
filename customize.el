@@ -38,7 +38,6 @@
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
- '(helm-command-prefix-key "C-c h")
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (cond

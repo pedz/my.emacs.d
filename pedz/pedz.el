@@ -1,6 +1,6 @@
-(eval-when 'compile
-  (add-to-list 'load-path (concat (file-name-directory byte-compile-current-file)
-				  "../el-get/helm")))
+;; (eval-when 'compile
+;;   (add-to-list 'load-path (concat (file-name-directory byte-compile-current-file)
+;; 				  "../el-get/helm")))
 (put 'eval-expression 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -148,9 +148,9 @@
     ;; return the result
     result))
 
-(eval-when-compile (defvar grep-files-aliases))
-(eval-after-load 'grep
-  '(add-to-list 'grep-files-aliases (cons "rails" "*.rb *.erb *.js *.css *.scss")))
+;; (eval-when-compile (defvar grep-files-aliases))
+;; (eval-after-load 'grep
+;;   '(add-to-list 'grep-files-aliases (cons "rails" "*.rb *.erb *.js *.css *.scss")))
 
 (define-key global-map "\C-x/" 'point-to-register)
 (define-key global-map "\C-xj" 'jump-to-register)
@@ -165,37 +165,37 @@
   (ansi-color-apply-on-region (point-min) (point-max)))
 
 
-;;; Setup doxymacs for Magicbook.
-;;
-;; We assume that if /usr/local/share/emacs/site-lisp exists then we
-;; want to set up to use doxymacs for all C files.
-
-(if (file-directory-p "/usr/local/share/emacs/site-lisp")
-    (progn
-      (declare-function doxymacs-mode "doxymacs"  (&optional arg))
-      (declare-function doxymacs-font-lock "doxymacs" nil)
-      (autoload 'doxymacs-mode "doxymacs"
-	"Minor mode for using/creating Doxygen documentation.
-To submit a problem report, request a feature or get support, please
-visit doxymacs' homepage at http://doxymacs.sourceforge.net/.
-
-To see what version of doxymacs you are running, enter
-`\\[doxymacs-version]'.
-
-In order for `doxymacs-lookup' to work you will need to customise the
-variable `doxymacs-doxygen-dirs'.
-
-Key bindings:
-\\{doxymacs-mode-map}" t)
-      (autoload 'doxymacs-font-lock "doxymacs"
-	"Turn on font-lock for Doxygen keywords.")
-      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
-      (add-hook 'c-mode-common-hook 'doxymacs-mode)
-      (defun my-doxymacs-font-lock-hook ()
-	(if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
-	    (doxymacs-font-lock)))
-      (add-hook 'font-lock-mode-hook 'my-doxymacs-font-lock-hook)))
-
+;;; ;;; Setup doxymacs for Magicbook.
+;;; ;;
+;;; ;; We assume that if /usr/local/share/emacs/site-lisp exists then we
+;;; ;; want to set up to use doxymacs for all C files.
+;;; 
+;;; (if (file-directory-p "/usr/local/share/emacs/site-lisp")
+;;;     (progn
+;;;       (declare-function doxymacs-mode "doxymacs"  (&optional arg))
+;;;       (declare-function doxymacs-font-lock "doxymacs" nil)
+;;;       (autoload 'doxymacs-mode "doxymacs"
+;;; 	"Minor mode for using/creating Doxygen documentation.
+;;; To submit a problem report, request a feature or get support, please
+;;; visit doxymacs' homepage at http://doxymacs.sourceforge.net/.
+;;; 
+;;; To see what version of doxymacs you are running, enter
+;;; `\\[doxymacs-version]'.
+;;; 
+;;; In order for `doxymacs-lookup' to work you will need to customise the
+;;; variable `doxymacs-doxygen-dirs'.
+;;; 
+;;; Key bindings:
+;;; \\{doxymacs-mode-map}" t)
+;;;       (autoload 'doxymacs-font-lock "doxymacs"
+;;; 	"Turn on font-lock for Doxygen keywords.")
+;;;       (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+;;;       (add-hook 'c-mode-common-hook 'doxymacs-mode)
+;;;       (defun my-doxymacs-font-lock-hook ()
+;;; 	(if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
+;;; 	    (doxymacs-font-lock)))
+;;;       (add-hook 'font-lock-mode-hook 'my-doxymacs-font-lock-hook)))
+;;; 
 (require 'url)
 
 (if (and
@@ -242,11 +242,20 @@ Call this to find the .prvmrc file and set emacs's environment up
 
 ;;;***
 
+(defun rgrep-exclude-log-files ()
+  "Add *.log to `grep-find-ignored-files'"
+  (interactive)
+  (add-to-list 'grep-find-ignored-files "*.log"))
+
+(defun rgrep-include-log-files ()
+  "Remove *.log from `grep-find-ignored-files'"
+  (interactive)
+  (setq grep-find-ignored-files (delete "*.log" grep-find-ignored-files)))
+
 
 ;;; setup hook to execute prvm-activate after a bookmark jump.
 (add-hook 'bookmark-after-jump-hook 'prvm-activate)
 
 (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
-;; (require 'helm-setup)
 (provide 'pedz)

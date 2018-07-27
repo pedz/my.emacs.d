@@ -69,9 +69,7 @@
 
 ;; my recipes
 (setq el-get-sources
-      '(;; (:name helm
-	;;        :post-init nil)
-	(:name magit
+      '((:name magit
       	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
 	(:name cscope
 	       :type github
@@ -86,8 +84,6 @@
 	       :type github
 	       :pkgname "pedz/gsa-cscope")
 	))
-
-;;; (debug-on-entry 'helm-mode)
 
 ;; my packages
 (setq my-packages '(
