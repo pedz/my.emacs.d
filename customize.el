@@ -41,31 +41,23 @@
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (cond
-    ((string-match "localhost:.*"
-		   (car
-		    (x-display-list)))
-     (quote
-      ((top . 0)
-       (left . 0)
-       (width . 120)
-       (height . 99))))
-    ((string-match "spitfire.*:3"
-		   (car
-		    (x-display-list)))
-     (quote
-      ((top . 0)
-       (left . 0)
-       (width . 90)
-       (height . 99))))
-    ((string=
-      (car
-       (x-display-list))
-      "Mac")
+    ;; For Mac's with an LG UltraFine Display above the build in MBP
+    ;; display.  Some key equations:
+    ;;
+    ;; (/ (- (display-pixel-width) (* (frame-char-width) (+ (frame-width) 5))) 2)
+    ;; (/ (display-pixel-height) (frame-char-height))
+    ;;
+    ;; When the displays are stacked, the height appears to be the
+    ;; total height of the two displays.
+    ;;
+    ((and (= (display-pixel-height) 2490)
+    	  (= (display-pixel-width) 2560))
      (quote
       ((top . 23)
-       (left . 607)
-       (width . 102)
-       (height . 69))))))
+       (left . 835)
+       (width . 132)
+       (height . 95))))
+    ))
  '(js2-global-externs (quote ("jQuery" "$")))
  '(js2-include-gears-externs nil)
  '(js2-include-rhino-externs nil)
