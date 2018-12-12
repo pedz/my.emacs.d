@@ -115,6 +115,14 @@
 (setq custom-file (expand-file-name "customize.el" user-emacs-directory))
 (load custom-file)
 
+;; Mojave seems to have changed how environment variables are set and
+;; I'm tired of chasing how to do this for MacOS after each release.
+;; The code below adds /usr/local/bin to exec-path and then computes
+;; the PATH environment variable based upon this result.
+(add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'exec-path (expand-file-name "~/bin"))
+(setenv "PATH" (mapconcat 'identity exec-path ":"))
+
 (defun sync-packages ()
   "Synchronize el-get packages"
   (interactive)
