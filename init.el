@@ -67,10 +67,65 @@
      (require 'yasnippet)
      (yas-add-to-dirs feature-snippet-directory)))
 
+;; Pull in forge when we use magit
+;; (with-eval-after-load 'magit
+;;   (require 'forge))
+(defun pedz-magit-set-sort-column ()
+  (setq tabulated-list-sort-key (cons "Name" nil)))
+(eval-after-load 'magit
+  (add-hook 'magit-repolist-mode-hook 'pedz-magit-set-sort-column))
+
 ;; my recipes
 (setq el-get-sources
       '((:name magit
       	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
+
+	;; (:name transient
+	;;        :website "https://github.com/magit/transient#readme"
+	;;        :description "Transient commands"
+	;;        :type github
+	;;        :pkgname "magit/transient"
+	;;        :branch "master"
+	;;        :minimum-emacs-version "25.1"
+	;;        :info "docs"
+	;;        :load-path "lisp/"
+	;;        :compile "lisp/"
+	;;        ;; Use the Makefile to produce the info manual, el-get can
+	;;        ;; handle compilation and autoloads on its own.  Create an
+	;;        ;; empty autoloads file because forge.el explicitly checks for
+	;;        ;; a file of that name.
+	;;        :build `(("make" ,(format "EMACSBIN=%s" el-get-emacs) "info")
+	;;        		("touch" "lisp/transient-autoloads.el"))
+	;;        ;; :build/berkeley-unix `(("gmake" ,(format "EMACSBIN=%s" el-get-emacs) "docs")
+	;;        ;; 			      ("touch" "lisp/transient-autoloads.el"))
+
+	;;        ;; assume windows lacks make and makeinfo
+	;;        ;; :build/windows-nt (with-temp-file "lisp/transient-autoloads.el" nil)
+	;;        )
+	;; (:name forge
+	;;        :website "https://github.com/magit/forge#readme"
+	;;        :description "Work with Git forges from the comfort of Magit"
+	;;        :type github
+	;;        :pkgname "magit/forge"
+	;;        :branch "master"
+	;;        :minimum-emacs-version "25.1"
+	;;        ;; :depends (closql dash emacsql-sqlite ghub graphql let-alist magit markdown-mode transient)
+	;;        :depends (closql dash emacsql ghub let-alist magit markdown-mode transient)
+	;;        :info "docs"
+	;;        :load-path "lisp/"
+	;;        :compile "lisp/"
+	;;        ;; Use the Makefile to produce the info manual, el-get can
+	;;        ;; handle compilation and autoloads on its own.  Create an
+	;;        ;; empty autoloads file because forge.el explicitly checks for
+	;;        ;; a file of that name.
+	;;        :build `(("make" ,(format "EMACSBIN=%s" el-get-emacs) "info")
+	;;        		("touch" "lisp/forge-autoloads.el"))
+	;;        ;; :build/berkeley-unix `(("gmake" ,(format "EMACSBIN=%s" el-get-emacs) "docs")
+	;;        ;; 			      ("touch" "lisp/forge-autoloads.el"))
+
+	;;        ;; assume windows lacks make and makeinfo
+	;;        ;; :build/windows-nt (with-temp-file "lisp/forge-autoloads.el" nil)
+	;;        )
 	(:name cscope
 	       :type github
 	       :pkgname "pedz/cscope.el"
@@ -97,6 +152,7 @@
 		    ;; Rest of the list
 		    auto-complete
 		    ;; doxymacs
+		    s
 		    feature-mode
 		    inf-ruby
 		    rspec-mode
@@ -110,6 +166,11 @@
 ;; (if (executable-find "bundle")
 ;;   (add-to-list 'my-packages 'rinari t))
 
+
+;;     git@github.dev.us-east-1.aws.galleon.c.statestr.com:e654643/tn-svc-orchestrate.git
+;; https://github.dev.us-east-1.aws.galleon.c.statestr.com/e654643/tn-svc-orchestrate/tree/pedz-pull-configure-out
+;; trim git@ and .git, prepend https://, change : to / (once?), append /tree/<branch>
+
 ;; Move the customizable values off to their own file
 ;; and load that file
 (setq custom-file (expand-file-name "customize.el" user-emacs-directory))
@@ -119,6 +180,8 @@
 ;; I'm tired of chasing how to do this for MacOS after each release.
 ;; The code below adds /usr/local/bin to exec-path and then computes
 ;; the PATH environment variable based upon this result.
+(add-to-list 'exec-path "/usr/local/opt/gnu-sed/libexec/gnubin")
+(add-to-list 'exec-path "/usr/local/opt/texinfo/bin")
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'exec-path (expand-file-name "~/bin"))
 (setenv "PATH" (mapconcat 'identity exec-path ":"))

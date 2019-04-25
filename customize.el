@@ -41,27 +41,57 @@
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (cond
-    ;; For Mac's with an LG UltraFine Display above the build in MBP
-    ;; display.  Some key equations:
-    ;;
-    ;; (/ (- (display-pixel-width) (* (frame-char-width) (+ (frame-width) 5))) 2)
-    ;; (/ (display-pixel-height) (frame-char-height))
-    ;;
-    ;; When the displays are stacked, the height appears to be the
-    ;; total height of the two displays.
-    ;;
-    ((and (= (display-pixel-height) 2490)
-    	  (= (display-pixel-width) 2560))
+    ((and
+      (=
+       (display-pixel-height)
+       2490)
+      (=
+       (display-pixel-width)
+       2560))
      (quote
       ((top . 23)
        (left . 835)
        (width . 132)
        (height . 95))))
-    ))
+    ((and
+      (=
+       (display-pixel-height)
+       1050)
+      (=
+       (display-pixel-width)
+       1680))
+     (quote
+      ((top . 23)
+       (left . 360)
+       (width . 132)
+       (height . 70))))))
  '(js2-global-externs (quote ("jQuery" "$")))
  '(js2-include-gears-externs nil)
  '(js2-include-rhino-externs nil)
  '(mac-emulate-three-button-mouse t)
+ '(magit-repolist-columns
+   (quote
+    (("Name" 42 magit-repolist-column-ident nil)
+     ("Branch" 25 magit-repolist-column-branch nil)
+     ("D" 1 magit-repolist-column-dirty
+      ((:help-echo "uNtracked Unstaged Staged")))
+     ("B<R" 3 magit-repolist-column-unpulled-from-pushremote
+      ((:right-align t)
+       (:help-echo "Remote changes not in branch")))
+     ("B>R" 3 magit-repolist-column-unpushed-to-pushremote
+      ((:right-align t)
+       (:help-echo "Local changes not in remote")))
+     ("B<U" 3 magit-repolist-column-unpulled-from-upstream
+      ((:right-align t)
+       (:help-echo "Upstream changes not in branch")))
+     ("B>U" 3 magit-repolist-column-unpushed-to-upstream
+      ((:right-align t)
+       (:help-echo "Local changes not in upstream")))
+     ("Link" 10 magit-repolist-column-url
+      ((:right-align t)
+       (:help-echo "Link to repo")))
+     )))
+ '(magit-repository-directories (quote (("/Users/pedz/git/TNC" . 1))))
  '(mail-default-reply-to "pedz@easesoftware.com")
  '(mail-self-blind t)
  '(major-mode (quote text-mode))

@@ -252,9 +252,43 @@ Call this to find the .prvmrc file and set emacs's environment up
   (interactive)
   (setq grep-find-ignored-files (delete "*.log" grep-find-ignored-files)))
 
+(defun rgrep-exclude-molecule-files ()
+  "Add \"molecule\" to `grep-find-ignored-directories'"
+  (interactive)
+  (add-to-list 'grep-find-ignored-directories "molecule"))
+
+(defun rgrep-include-molecule-files ()
+  "Remove \"molecule\" from `grep-find-ignored-directories'"
+  (interactive)
+  (setq grep-find-ignored-directories (remove "molecule" grep-find-ignored-directories)))
+
+
+
+;;; Set Mac type default
+(global-set-key "\M-`" 'other-frame)
+
 
 ;;; setup hook to execute prvm-activate after a bookmark jump.
 (add-hook 'bookmark-after-jump-hook 'prvm-activate)
+
+(defun magit-repolist-column-url (_id)
+  (let* ((map (make-sparse-keymap))
+	 (branch (magit-get-current-branch))
+	 (remote (magit-get "branch" branch "remote"))
+	 (fork (magit-get-push-remote branch))
+	 (temp1 (magit-get "remote" (or fork remote) "url"))
+	 (temp2 (replace-regexp-in-string ":" "/" temp1))
+	 (temp3 (replace-regexp-in-string "git@" "https://" temp2))
+	 (temp4 (replace-regexp-in-string "\\.git" "" temp3))
+	 (url (format "%s/tree/%s" temp4 branch)))
+    (define-key map [mouse-2]
+      `(lambda ()
+	 (interactive)
+	 (browse-url ,url)))
+    (propertize "url =>"
+		'mouse-face 'highlight
+		'help-echo (format "visit %s" url)
+		'keymap map)))
 
 (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
