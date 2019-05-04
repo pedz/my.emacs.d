@@ -4,68 +4,65 @@
 ;; (defadvice require (before load-log activate)
 ;;   (message "Requiring %s" (ad-get-arg 0)))
 
-;; subr.el sets this to the constant "~/.emacs.d/".  I want it to
-;; track where the init file came from.  This constrains the path to
-;; the init file some.
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+;; subr.el sets this to the constant "~/.emacs.d/".  I want it to
+;; track where the init file came from.  This constrains the path to
+;; the init file some.
 (setq user-emacs-directory (file-name-directory
 			    (if user-init-file
 				user-init-file
 			      load-file-name)))
 
 ;; Set up minimal load-path
-;; (dolist (dir '( "el-get/el-get" "pedz" "." ))
-;;   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 (dolist (dir '( "el-get/el-get" "pedz" ))
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
-;; Need this very early on
-(defun yas-add-to-dirs ( elt )
-  "Add ELT to `yas-snippet-dirs'"
-  (unless (listp yas-snippet-dirs)
-    (setq yas-snippet-dirs (list yas-snippet-dirs)))
-  (unless (member elt yas-snippet-dirs)
-    (if (null yas-snippet-dirs)
-	(setq yas-snippet-dirs (list elt))
-      (push elt (cdr yas-snippet-dirs))))
-  (yas-load-directory elt t)
-  yas-snippet-dirs)
+;; ;; Need this very early on
+;; (defun yas-add-to-dirs ( elt )
+;;   "Add ELT to `yas-snippet-dirs'"
+;;   (unless (listp yas-snippet-dirs)
+;;     (setq yas-snippet-dirs (list yas-snippet-dirs)))
+;;   (unless (member elt yas-snippet-dirs)
+;;     (if (null yas-snippet-dirs)
+;; 	(setq yas-snippet-dirs (list elt))
+;;       (push elt (cdr yas-snippet-dirs))))
+;;   (yas-load-directory elt t)
+;;   yas-snippet-dirs)
 
-;;;
-;;; Create needed auto execs so as things get loaded, items are
-;;; cusomized as we want them.
-;;;
-;; Add our private recipe directory to el-get's
-(eval-after-load 'el-get
-  '(progn
-     (message "adding to el-get's recipes")
-     (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory))))
+;; ;;;
+;; ;;; Create needed auto execs so as things get loaded, items are
+;; ;;; cusomized as we want them.
+;; ;;;
+;; ;; Add our private recipe directory to el-get's
+;; (eval-after-load 'el-get
+;;   '(progn
+;;      (message "adding to el-get's recipes")
+;;      (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory))))
 
-;; Lets go ahead and turn on yasnippet mode.
-(eval-after-load 'yasnippet
-  '(progn
-     (message "yas global mode")
-     (yas-global-mode 1)))
+;; ;; Lets go ahead and turn on yasnippet mode.
+;; (eval-after-load 'yasnippet
+;;   '(progn
+;;      (message "yas global mode")
+;;      (yas-global-mode 1)))
 
-;; We want snippets in rspec mode
-(eval-after-load 'rspec-mode
-  '(progn
-     (message "calling rspec-install-snippets")
-     (yas-add-to-dirs rspec-snippets-dir)
-     (add-hook 'dired-mode-hook 'rspec-dired-mode)))
+;; ;; We want snippets in rspec mode
+;; (eval-after-load 'rspec-mode
+;;   '(progn
+;;      (message "calling rspec-install-snippets")
+;;      (yas-add-to-dirs rspec-snippets-dir)
+;;      (add-hook 'dired-mode-hook 'rspec-dired-mode)))
 
-;; we want the snippets in feature-mode
-(eval-after-load 'feature-mode
-  '(progn
-     (message "adding feature snippet directory")
-     (require 'yasnippet)
-     (yas-add-to-dirs feature-snippet-directory)))
+;; ;; we want the snippets in feature-mode
+;; (eval-after-load 'feature-mode
+;;   '(progn
+;;      (message "adding feature snippet directory")
+;;      (require 'yasnippet)
+;;      (yas-add-to-dirs feature-snippet-directory)))
 
 ;; Pull in forge when we use magit
 ;; (with-eval-after-load 'magit
@@ -76,88 +73,42 @@
   (add-hook 'magit-repolist-mode-hook 'pedz-magit-set-sort-column))
 
 ;; my recipes
-(setq el-get-sources
-      '((:name magit
-      	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
+;; (setq el-get-sources
+;;       '((:name magit
+;;       	       :before (global-set-key (kbd "C-x C-z") 'magit-status))
 
-	;; (:name transient
-	;;        :website "https://github.com/magit/transient#readme"
-	;;        :description "Transient commands"
-	;;        :type github
-	;;        :pkgname "magit/transient"
-	;;        :branch "master"
-	;;        :minimum-emacs-version "25.1"
-	;;        :info "docs"
-	;;        :load-path "lisp/"
-	;;        :compile "lisp/"
-	;;        ;; Use the Makefile to produce the info manual, el-get can
-	;;        ;; handle compilation and autoloads on its own.  Create an
-	;;        ;; empty autoloads file because forge.el explicitly checks for
-	;;        ;; a file of that name.
-	;;        :build `(("make" ,(format "EMACSBIN=%s" el-get-emacs) "info")
-	;;        		("touch" "lisp/transient-autoloads.el"))
-	;;        ;; :build/berkeley-unix `(("gmake" ,(format "EMACSBIN=%s" el-get-emacs) "docs")
-	;;        ;; 			      ("touch" "lisp/transient-autoloads.el"))
-
-	;;        ;; assume windows lacks make and makeinfo
-	;;        ;; :build/windows-nt (with-temp-file "lisp/transient-autoloads.el" nil)
-	;;        )
-	;; (:name forge
-	;;        :website "https://github.com/magit/forge#readme"
-	;;        :description "Work with Git forges from the comfort of Magit"
-	;;        :type github
-	;;        :pkgname "magit/forge"
-	;;        :branch "master"
-	;;        :minimum-emacs-version "25.1"
-	;;        ;; :depends (closql dash emacsql-sqlite ghub graphql let-alist magit markdown-mode transient)
-	;;        :depends (closql dash emacsql ghub let-alist magit markdown-mode transient)
-	;;        :info "docs"
-	;;        :load-path "lisp/"
-	;;        :compile "lisp/"
-	;;        ;; Use the Makefile to produce the info manual, el-get can
-	;;        ;; handle compilation and autoloads on its own.  Create an
-	;;        ;; empty autoloads file because forge.el explicitly checks for
-	;;        ;; a file of that name.
-	;;        :build `(("make" ,(format "EMACSBIN=%s" el-get-emacs) "info")
-	;;        		("touch" "lisp/forge-autoloads.el"))
-	;;        ;; :build/berkeley-unix `(("gmake" ,(format "EMACSBIN=%s" el-get-emacs) "docs")
-	;;        ;; 			      ("touch" "lisp/forge-autoloads.el"))
-
-	;;        ;; assume windows lacks make and makeinfo
-	;;        ;; :build/windows-nt (with-temp-file "lisp/forge-autoloads.el" nil)
-	;;        )
-	(:name cscope
-	       :type github
-	       :pkgname "pedz/cscope.el"
-	       :post-init (add-hook 'c-initialization-hook
-				    (lambda () (require 'cscope))))
-	(:name js2-mode
-	       :post-init (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
-	(:name jquery-doc
-	       :post-init (add-hook 'js2-mode-hook 'jquery-doc-setup))
-	(:name gsa-cscope
-	       :type github
-	       :pkgname "pedz/gsa-cscope")
-	))
+;; 	(:name cscope
+;; 	       :type github
+;; 	       :pkgname "pedz/cscope.el"
+;; 	       :post-init (add-hook 'c-initialization-hook
+;; 				    (lambda () (require 'cscope))))
+;; 	(:name js2-mode
+;; 	       :post-init (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+;; 	(:name jquery-doc
+;; 	       :post-init (add-hook 'js2-mode-hook 'jquery-doc-setup))
+;; 	(:name gsa-cscope
+;; 	       :type github
+;; 	       :pkgname "pedz/gsa-cscope")
+;; 	))
 
 ;; my packages
-(setq my-packages '(
-		    ;; el-get must be first
-		    el-get
-		    ;; package needs to be second
-		    package
-		    ;; load yasnippet before any other package that
-		    ;; adds to the snippet dir list.
-		    yasnippet
-		    ;; Rest of the list
-		    auto-complete
-		    ;; doxymacs
-		    s
-		    feature-mode
-		    inf-ruby
-		    rspec-mode
-		    yari
-		    ))
+;; (setq my-packages '(
+;; 		    ;; el-get must be first
+;; 		    el-get
+;; 		    ;; package needs to be second
+;; 		    package
+;; 		    ;; load yasnippet before any other package that
+;; 		    ;; adds to the snippet dir list.
+;; 		    yasnippet
+;; 		    ;; Rest of the list
+;; 		    auto-complete
+;; 		    ;; doxymacs
+;; 		    s
+;; 		    feature-mode
+;; 		    inf-ruby
+;; 		    rspec-mode
+;; 		    yari
+;; 		    ))
 
 ;; Add rinari only if "bundle" is in our path or it won't install.
 ;;
@@ -186,26 +137,60 @@
 (add-to-list 'exec-path (expand-file-name "~/bin"))
 (setenv "PATH" (mapconcat 'identity exec-path ":"))
 
-(defun sync-packages ()
-  "Synchronize el-get packages"
-  (interactive)
-  (message "Starting sync")
-  (el-get 'sync (append my-packages 
-			(mapcar 'el-get-as-symbol
-				(mapcar 'el-get-source-name el-get-sources))))
-  (message "All packages are synchronized")
-  (require 'pedz))
+;; (defun sync-packages ()
+;;   "Synchronize el-get packages"
+;;   (interactive)
+;;   (message "Starting sync")
+;;   (el-get 'sync (append my-packages 
+;; 			(mapcar 'el-get-as-symbol
+;; 				(mapcar 'el-get-source-name el-get-sources))))
+;;   (message "All packages are synchronized")
+;;   (require 'pedz))
 
-;; This piece of code sucks over el-get if it is not present on the
-;; system and then calls sync-packages which will suck over all the
-;; other packages as well.
-(if (require 'el-get nil t)
-    (sync-packages)
-  (url-retrieve
-   "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
-   (lambda (s)
-     (let (el-get-master-branch)
-       (end-of-buffer)
-       (eval-print-last-sexp)
-       (setq el-get-verbose t)
-       (sync-packages)))))
+;; ;; This piece of code sucks over el-get if it is not present on the
+;; ;; system and then calls sync-packages which will suck over all the
+;; ;; other packages as well.
+;; (if (require 'el-get nil t)
+;;     (sync-packages)
+;;   (url-retrieve
+;;    "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
+;;    (lambda (s)
+;;      (let (el-get-master-branch)
+;;        (end-of-buffer)
+;;        (eval-print-last-sexp)
+;;        (setq el-get-verbose t)
+;;        (sync-packages)))))
+
+(require 'pedz)
+
+;; el-get setup
+;; Note that adding el-get/el-get is done above
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+
+;; Basic setup
+
+(el-get 'sync)
+
+;; Advanced setup
+
+;; ;; Simple package names
+;; (el-get-bundle yasnippet)
+;; (el-get-bundle color-moccur)
+
+;; ;; Locally defined recipe
+;; (el-get-bundle yaicomplete
+;;   :url "https://github.com/tarao/elisp.git"
+;;   :features yaicomplete)
+
+;; ;; With initialization code
+;; (el-get-bundle zenburn-theme
+;;   :url "https://raw.githubusercontent.com/bbatsov/zenburn-emacs/master/zenburn-theme.el"
+;;   (load-theme 'zenburn t))
