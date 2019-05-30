@@ -41,21 +41,17 @@
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (cond
-    ;; For Mac's with an LG UltraFine Display above the build in MBP
-    ;; display.  Some key equations:
-    ;;
-    ;; (/ (- (display-pixel-width) (* (frame-char-width) (+ (frame-width) 5))) 2)
-    ;; (/ (display-pixel-height) (frame-char-height))
-    ;;
-    ;; When the displays are stacked, the height appears to be the
-    ;; total height of the two displays.
-    ;;
-    ;; The condition is for the two displays (stacked) to be mirrored
-    ;; like I do at home or not like I do at work.
-    ;;
-    ((and (or (= (display-pixel-height) 2490)
-	      (= (display-pixel-height) 1440))
-    	  (= (display-pixel-width) 2560))
+    ((and
+      (or
+       (=
+	(display-pixel-height)
+	2490)
+       (=
+	(display-pixel-height)
+	1440))
+      (=
+       (display-pixel-width)
+       2560))
      (quote
       ((top . 23)
        (left . 835)
@@ -97,9 +93,9 @@
        (:help-echo "Local changes not in upstream")))
      ("Link" 10 magit-repolist-column-url
       ((:right-align t)
-       (:help-echo "Link to repo")))
-     )))
- '(magit-repository-directories (quote (("/Users/pedz/git/TNC" . 1))))
+       (:help-echo "Link to repo"))))))
+ '(magit-repository-directories (quote (("/Users/pedz/git/TNC" . 2))))
+ '(magit-view-git-manual-method nil)
  '(mail-default-reply-to "pedz@easesoftware.com")
  '(mail-self-blind t)
  '(major-mode (quote text-mode))
