@@ -19,7 +19,7 @@
 			      load-file-name)))
 
 ;; Set up minimal load-path
-(dolist (dir '( "el-get/el-get" "pedz" ))
+(dolist (dir '( "el-get/el-get" "pedz" "el-get/s"))
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
 (defun pedz-magit-set-sort-column ()

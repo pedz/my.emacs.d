@@ -276,19 +276,22 @@ Call this to find the .prvmrc file and set emacs's environment up
 	 (branch (magit-get-current-branch))
 	 (remote (magit-get "branch" branch "remote"))
 	 (fork (magit-get-push-remote branch))
-	 (temp1 (magit-get "remote" (or fork remote) "url"))
-	 (temp2 (replace-regexp-in-string ":" "/" temp1))
-	 (temp3 (replace-regexp-in-string "git@" "https://" temp2))
-	 (temp4 (replace-regexp-in-string "\\.git" "" temp3))
-	 (url (format "%s/tree/%s" temp4 branch)))
-    (define-key map [mouse-2]
-      `(lambda ()
-	 (interactive)
-	 (browse-url ,url)))
-    (propertize "url =>"
-		'mouse-face 'highlight
-		'help-echo (format "visit %s" url)
-		'keymap map)))
+	 temp1 temp2 temp3 temp4 url)
+    (if (null (or fork remote))
+	"------"
+      (setq temp1 (magit-get "remote" (or fork remote) "url")
+	    temp2 (replace-regexp-in-string ":" "/" temp1)
+	    temp3 (replace-regexp-in-string "git@" "https://" temp2)
+	    temp4 (replace-regexp-in-string "\\.git" "" temp3)
+	    url (format "%s/tree/%s" temp4 branch))
+      (define-key map [mouse-2]
+	`(lambda ()
+	   (interactive)
+	   (browse-url ,url)))
+      (propertize "url =>"
+		  'mouse-face 'highlight
+		  'help-echo (format "visit %s" url)
+		  'keymap map))))
 
 (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
