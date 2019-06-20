@@ -27,11 +27,11 @@
 
 ;;; setup yari and yari-helm because it needs helm which I don't load
 ;;; usually
-(defun yari-bind-key ()
-  (require 'helm)
-  (local-set-key [f1] 'yari-helm))
+;; (defun yari-bind-key ()
+;;   (require 'helm)
+;;   (local-set-key [f1] 'yari-helm))
 
-(add-hook 'ruby-mode-hook 'yari-bind-key)
+;; (add-hook 'ruby-mode-hook 'yari-bind-key)
 
 
 ;;; Set comment-auto-fill-only-comments as true and make it buffer

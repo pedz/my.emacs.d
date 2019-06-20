@@ -19,7 +19,7 @@
 			      load-file-name)))
 
 ;; Set up minimal load-path
-(dolist (dir '( "el-get/el-get" "pedz" "el-get/s"))
+(dolist (dir '( "el-get/el-get" "pedz"))
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
 (defun pedz-magit-set-sort-column ()
@@ -78,3 +78,9 @@
 ;; (el-get-bundle zenburn-theme
 ;;   :url "https://raw.githubusercontent.com/bbatsov/zenburn-emacs/master/zenburn-theme.el"
 ;;   (load-theme 'zenburn t))
+
+;; From the README:
+;; Note that if you leave in the (el-get 'sync) call, it must go after
+;; any recipe defining el-get-bundle calls, otherwise el-get won't know
+;; the recipe when it tries to initialize the package.
+(el-get 'sync)
