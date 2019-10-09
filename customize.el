@@ -101,8 +101,6 @@
  '(major-mode (quote text-mode))
  '(mmm-submode-decoration-level 2)
  '(mumamo-chunk-coloring 1 nil nil "let most of the page be uncolored and color only the sub-chunks")
- '(ns-alternate-modifier (quote super))
- '(ns-command-modifier (quote meta))
  '(nxhtml-skip-welcome nil nil nil "Shh!!!")
  '(package-archives
    (quote
