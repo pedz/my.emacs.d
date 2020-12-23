@@ -25,13 +25,15 @@
 (defvar ruby-use-smie nil)
 
 
-;;; setup yari and yari-helm because it needs helm which I don't load
-;;; usually
-;; (defun yari-bind-key ()
-;;   (require 'helm)
-;;   (local-set-key [f1] 'yari-helm))
-
-;; (add-hook 'ruby-mode-hook 'yari-bind-key)
+;; If helm is loaded, set f1 to call yari-helm in ruby-mode
+(if (fboundp 'yari)
+    (progn
+      (defun yari-bind-key ()
+	(local-set-key [f1]
+		       (if (fboundp 'helm-mode)
+			   'yari-helm
+			 'yari)))
+      (add-hook 'ruby-mode-hook 'yari-bind-key)))
 
 
 ;;; Set comment-auto-fill-only-comments as true and make it buffer
@@ -69,7 +71,9 @@ turning on auto fill mode within code comments only."
 	 "[ \t]*$")))		; some more whitespace
 
 (add-hook 'ruby-mode-hook 'yard-paragraph-boundaries)
+(global-rbenv-mode)
 
 
-
+;; Try out web-mode for erb Rails templates
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (provide 'ruby-setup)

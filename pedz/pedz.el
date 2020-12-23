@@ -8,7 +8,7 @@
 (put 'upcase-region 'disabled nil)
 
 ;; real apropos
-(define-key help-map "a" 'apropos)
+(define-key help-map (kbd "a") 'apropos)
 
 ;; unset level so shell's prompt says "1"
 (setenv "level" nil)
@@ -19,16 +19,17 @@
   (kill-line 0))
 
 ;; setup minibuffer maps to have BSD style TTY line editing
-(dolist (tmap (list
-	       minibuffer-local-completion-map
-	       minibuffer-local-filename-completion-map
-	       minibuffer-local-isearch-map
-	       minibuffer-local-map
-	       minibuffer-local-must-match-map
-	       minibuffer-local-ns-map
-	       minibuffer-local-shell-command-map))
-  (define-key tmap "\C-w" 'backward-kill-word)
-  (define-key tmap "\C-u" 'backward-kill-line))
+;; Removed while playing with Helm
+;; (dolist (tmap (list
+;; 	       minibuffer-local-completion-map
+;; 	       minibuffer-local-filename-completion-map
+;; 	       minibuffer-local-isearch-map
+;; 	       minibuffer-local-map
+;; 	       minibuffer-local-must-match-map
+;; 	       minibuffer-local-ns-map
+;; 	       minibuffer-local-shell-command-map))
+;;   (define-key tmap "\C-w" 'backward-kill-word)
+;;   (define-key tmap "\C-u" 'backward-kill-line))
 
 ;;
 ;; toggle the case fold search flag
@@ -44,28 +45,31 @@
 ;;
 (defvar personal-map (make-sparse-keymap)
   "Keymap for all personal key bindings")
-(define-key personal-map "\C-b"
+(define-key personal-map (kbd "C-b")
   (function
    (lambda ()
      (interactive) (recenter -1))))
-(define-key personal-map "\C-f" 'auto-fill-mode)
-(define-key personal-map "\C-p" 'insert-current-pmr)
-(define-key personal-map "\C-g" 'goto-line)
-(define-key personal-map "\C-k" 'compile)
-(define-key personal-map "\C-v" 'view-file)
-(define-key personal-map "b" 'bury-buffer)
-(define-key personal-map "t" (function
+(define-key personal-map (kbd "C-f") 'auto-fill-mode)
+(define-key personal-map (kbd "C-p") 'insert-current-pmr)
+(define-key personal-map (kbd "C-g") 'goto-line)
+(define-key personal-map (kbd "C-k") 'compile)
+(define-key personal-map (kbd "C-v") 'view-file)
+(define-key personal-map (kbd "b") 'bury-buffer)
+(define-key personal-map (kbd "t") (function
                               (lambda ()
                                 (interactive)
                                 (recenter 0))))
-(define-key personal-map "\C-t" (function
+(define-key personal-map (kbd "C-t") (function
                                  (lambda ()
                                    (interactive)
                                    (recenter 0))))
-(define-key personal-map "l" 'list-all-matching-lines)
-(define-key personal-map "\C-c" 'toggle-buffer-case-fold-search)
+(define-key personal-map (kbd "l") 'list-all-matching-lines)
+(define-key personal-map (kbd "C-c") 'toggle-buffer-case-fold-search)
+(define-key personal-map (kbd "W") 'whitespace-cleanup)
+(define-key personal-map (kbd "w") 'compare-windows)
+(define-key personal-map (kbd "C-w") 'compare-windows)
 
-(define-key global-map "\C-\\" personal-map)
+(define-key global-map (kbd "C-\\") personal-map)
 
 (defun list-all-matching-lines (regexp &optional nlines)
   (interactive "sList lines matching regexp: \nP")
@@ -74,7 +78,7 @@
     (occur regexp nlines)
     (goto-char here)))
 
-(define-key global-map "\C-x\C-b" 'electric-buffer-list)
+(define-key global-map (kbd "C-x C-b") 'electric-buffer-list)
 
 (server-start)
 
@@ -85,10 +89,19 @@
       (require 'x-stuff)
       (setup-x)))
 
-(if (eq window-system 'ns)
-    (progn
-      (define-key global-map [?\M-h] 'ns-do-hide-emacs)
-      (define-key global-map [?\M-\s-h] 'ns-do-hide-others)))
+;; This is no longer needed / wanted.  I use to have the meta key the
+;; same as the command key next to the space bar.  But that was
+;; inconsistent with how the Terminal worked and that affected me
+;; using zsh.  So now I have meta as Option which is more normal.
+;; Note that for a Windows style keyboard, I still need to go into
+;; Apple => System Preferences => Keyboard => Modifier Keys... and
+;; rearrange the "Windows" key but I don't need to do anything for an
+;; Apple keyboard such as one on a Mac laptop.
+;;
+;; (if (eq window-system 'ns)
+;;     (progn
+;;       (define-key global-map [?\M-h] 'ns-do-hide-emacs)
+;;       (define-key global-map [?\M-\s-h] 'ns-do-hide-others)))
 
 (display-time)
 
@@ -152,11 +165,12 @@
 ;; (eval-after-load 'grep
 ;;   '(add-to-list 'grep-files-aliases (cons "rails" "*.rb *.erb *.js *.css *.scss")))
 
-(define-key global-map "\C-x/" 'point-to-register)
-(define-key global-map "\C-xj" 'jump-to-register)
+(define-key global-map (kbd "C-x /") 'point-to-register)
+(define-key global-map (kbd "C-x j") 'jump-to-register)
 
 ;; Add shift-<arrow key> to move between windows
-(windmove-default-keybindings)
+;; (windmove-default-keybindings)
+
 
 ;;; which hack to show red colors that snapper puts out.
 (defun display-ansi-colors ()
@@ -262,14 +276,38 @@ Call this to find the .prvmrc file and set emacs's environment up
   (interactive)
   (setq grep-find-ignored-directories (remove "molecule" grep-find-ignored-directories)))
 
+(defun rgrep-exclude-node_modules-files ()
+  "Add \"node_modules\" to `grep-find-ignored-directories'"
+  (interactive)
+  (add-to-list 'grep-find-ignored-directories "node_modules"))
+
+(defun rgrep-include-node_modules-files ()
+  "Remove \"node_modules\" from `grep-find-ignored-directories'"
+  (interactive)
+  (setq grep-find-ignored-directories (remove "node_modules" grep-find-ignored-directories)))
+
+(defun rgrep-exclude-cache-files ()
+  "Add \"cache\" to `grep-find-ignored-directories'"
+  (interactive)
+  (add-to-list 'grep-find-ignored-directories "cache"))
+
+(defun rgrep-include-cache-files ()
+  "Remove \"cache\" from `grep-find-ignored-directories'"
+  (interactive)
+  (setq grep-find-ignored-directories (remove "cache" grep-find-ignored-directories)))
+
 
+
+(defun unfill ()
+  "Does the opposite of fill.  Lines separated with a single new line
+  are joined with a single space."
+  (interactive)
+  (replace-regexp "\\(.\\)\n\\(.\\)" "\\1 \\2"))
 
 ;;; Set Mac type default
 (global-set-key "\M-`" 'other-frame)
 
 
-;;; setup hook to execute prvm-activate after a bookmark jump.
-(add-hook 'bookmark-after-jump-hook 'prvm-activate)
 
 (defun magit-repolist-column-url (_id)
   (let* ((map (make-sparse-keymap))
@@ -284,7 +322,7 @@ Call this to find the .prvmrc file and set emacs's environment up
 	    temp3 (replace-regexp-in-string "git@" "https://" temp2)
 	    temp4 (replace-regexp-in-string "\\.git" "" temp3)
 	    url (format "%s/tree/%s" temp4 branch))
-      (define-key map [mouse-2]
+      (define-key map (kbd "<mouse-2>")
 	`(lambda ()
 	   (interactive)
 	   (browse-url ,url)))
@@ -292,6 +330,13 @@ Call this to find the .prvmrc file and set emacs's environment up
 		  'mouse-face 'highlight
 		  'help-echo (format "visit %s" url)
 		  'keymap map))))
+
+(defun zsh-manpage-search-regexp (string &optional lax)
+  "Returns a string to search for entries in the zshall man page"
+  (format "\n[A-Z ]*\n \\{7\\}%s%s" string (if lax "" "\\_>")))
+
+(isearch-define-mode-toggle zsh-manpage "z" zsh-manpage-search-regexp "\
+Searching zshall man page for where a concept is described")
 
 (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)

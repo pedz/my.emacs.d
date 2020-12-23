@@ -42,8 +42,6 @@
 (add-to-list 'exec-path (expand-file-name "~/bin"))
 (setenv "PATH" (mapconcat 'identity exec-path ":"))
 
-(require 'pedz)
-
 ;; el-get setup
 ;; Note that adding el-get/el-get is done above
 
@@ -65,6 +63,11 @@
 (el-get-bundle magit
   :before (global-set-key (kbd "C-x g") 'magit-status))
 
+;; Load  helm but kill the default (helm-mode)  I later decided to not
+;; do this but kept this as an example.
+;; (el-get-bundle helm
+;;   :post-init nil)
+
 ;; ;; Simple package names
 ;; (el-get-bundle yasnippet)
 ;; (el-get-bundle color-moccur)
@@ -83,4 +86,10 @@
 ;; Note that if you leave in the (el-get 'sync) call, it must go after
 ;; any recipe defining el-get-bundle calls, otherwise el-get won't know
 ;; the recipe when it tries to initialize the package.
+
 (el-get 'sync)
+
+;; I think I want this here ... lets find out :-)
+(require 'pedz)
+;; Add this here for now
+(require 'helm-setup)
