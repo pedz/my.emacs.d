@@ -50,6 +50,9 @@
         2490)
        (=
         (display-pixel-height)
+        2340)
+       (=
+        (display-pixel-height)
         1440))
       (=
        (display-pixel-width)
