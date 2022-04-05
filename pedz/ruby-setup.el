@@ -1,4 +1,12 @@
 ;;;
+;;; This only defines new functions or variables and add hooks.  It
+;;; does not change settings at load time and tries hard not to make
+;;; any assumptions.  (e.g. is rbenv mode even present?)  So it should
+;;; be safe to load all the time.
+;;; 
+
+
+;;;
 ;;; Rules to help with alignments in Ruby mode
 ;;;
 
@@ -19,61 +27,57 @@
 ;; 		 )) (add-to-list 'align-rules-list ar t)))
 
 
-;;;
-;;; Rule to stop using smie in Ruby mode.
-;;;
-(defvar ruby-use-smie nil)
-
-
-;; If helm is loaded, set f1 to call yari-helm in ruby-mode
-(if (fboundp 'yari)
-    (progn
-      (defun yari-bind-key ()
-	(local-set-key [f1]
-		       (if (fboundp 'helm-mode)
-			   'yari-helm
-			 'yari)))
-      (add-hook 'ruby-mode-hook 'yari-bind-key)))
-
-
 ;;; Set comment-auto-fill-only-comments as true and make it buffer
 ;;; local as well as turn auto-fill on.  We can then add this to mode
 ;;; specific hooks.
-(defun auto-fill-comments ()
-  "Sets `comment-auto-fill-only-comments` as buffer local, set it to
-`t`, and calls `auto-fill-mode` with `t`.  This has the effect of
-turning on auto fill mode within code comments only."
-  (make-local-variable 'comment-auto-fill-only-comments)
-  (setq comment-auto-fill-only-comments t)
-  (auto-fill-mode t))
+;;
+;; This looks useful but lets turn it off for now.
+;;
+;; (defun auto-fill-comments ()
+;;   "Sets `comment-auto-fill-only-comments` as buffer local, set it to
+;; `t`, and calls `auto-fill-mode` with `t`.  This has the effect of
+;; turning on auto fill mode within code comments only."
+;;   (make-local-variable 'comment-auto-fill-only-comments)
+;;   (setq comment-auto-fill-only-comments t)
+;;   (auto-fill-mode t))
 
-(add-hook 'ruby-mode-hook 'auto-fill-comments)
-
+;; (add-hook 'ruby-mode-hook 'auto-fill-comments)
 
 ;;; Set up paragraph-separate and paragraph-start
 ;;; This may not be best now.  Need to experiment
-(defun yard-paragraph-boundaries ()
-  (interactive)
-  ;; Paragraphs are separated by lines containing only a # character
-  (setq paragraph-separate "[ \t]*#[ \t]*$")
-  ;; Paragraphs start with YARD tags or list items
-  (setq paragraph-start
-	(cl-concatenate
-	 'string
-	 "[ \t]*"		; some whitespace
-	 "#[ \t]*"		; a # character followed by whitespace
-	 "\\("
-         "@[[:alpha:]]+"	; a YARD tag
-	 "\\|"			; or
-         "-"			; a list item
-	 "\\)"
-	 "\\([ \t]+.*\\)?"	; an optional text
-	 "[ \t]*$")))		; some more whitespace
+;;
+;; Again, this looks useful but lets turn it off until I start doing
+;; yard work (HAHAHAHAHA) again.
+;;
+;; (defun yard-paragraph-boundaries ()
+;;   (interactive)
+;;   ;; Paragraphs are separated by lines containing only a # character
+;;   (setq paragraph-separate "[ \t]*#[ \t]*$")
+;;   ;; Paragraphs start with YARD tags or list items
+;;   (setq paragraph-start
+;; 	(cl-concatenate
+;; 	 'string
+;; 	 "[ \t]*"		; some whitespace
+;; 	 "#[ \t]*"		; a # character followed by whitespace
+;; 	 "\\("
+;;          "@[[:alpha:]]+"	; a YARD tag
+;; 	 "\\|"			; or
+;;          "-"			; a list item
+;; 	 "\\)"
+;; 	 "\\([ \t]+.*\\)?"	; an optional text
+;; 	 "[ \t]*$")))		; some more whitespace
+;; (add-hook 'ruby-mode-hook 'yard-paragraph-boundaries)
 
-(add-hook 'ruby-mode-hook 'yard-paragraph-boundaries)
-(global-rbenv-mode)
+(if (fboundp 'global-rbenv-mode)
+    (progn
+      (defun enable-rbenv-mode ()
+        (interactive)
+        (global-rbenv-mode)
+        (rbenv-use-corresponding))
+      (add-hook 'ruby-mode-hook 'enable-rbenv-mode)))
 
 
 ;; Try out web-mode for erb Rails templates
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+;;(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+
 (provide 'ruby-setup)
