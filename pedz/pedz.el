@@ -338,6 +338,6 @@ Call this to find the .prvmrc file and set emacs's environment up
 (isearch-define-mode-toggle zsh-manpage "z" zsh-manpage-search-regexp "\
 Searching zshall man page for where a concept is described")
 
-(eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
+;; (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
 (provide 'pedz)
