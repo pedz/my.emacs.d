@@ -26,6 +26,13 @@
     (cons "."
           (expand-file-name "backup" user-emacs-directory))))
  '(case-fold-search nil)
+ '(default-frame-alist
+    '((minibuffer . t)
+      (menu-bar-lines . 0)
+      (background-color . "black")
+      (cursor-color . "SlateBlue")
+      (foreground-color . "grey")
+      (mouse-color . "Blue")))
  '(delete-old-versions t)
  '(dired-use-ls-dired nil)
  '(display-buffer-reuse-frames t)

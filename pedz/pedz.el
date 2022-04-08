@@ -1,6 +1,7 @@
 ;; (eval-when 'compile
 ;;   (add-to-list 'load-path (concat (file-name-directory byte-compile-current-file)
 ;; 				  "../el-get/helm")))
+
 (put 'eval-expression 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -9,9 +10,6 @@
 
 ;; real apropos
 (define-key help-map (kbd "a") 'apropos)
-
-;; unset level so shell's prompt says "1"
-(setenv "level" nil)
 
 (defun backward-kill-line ()
   "Kills the line from point back to the beginning of the line"
@@ -41,7 +39,8 @@
            (prin1-to-string (setq case-fold-search (not case-fold-search)))))
 
 ;;
-;; My own map of things is in this map and I hook the map to \C-\\ for now
+;; My own keymap of key bindings is in this map and I hook the map to
+;; \C-\\ for now
 ;;
 (defvar personal-map (make-sparse-keymap)
   "Keymap for all personal key bindings")
@@ -82,12 +81,18 @@
 
 (server-start)
 
-(declare-function setup-x "x-stuff" ())
-(if (or (eq window-system 'x)
-        (eq window-system 'ns))
-    (progn
-      (require 'x-stuff)
-      (setup-x)))
+;;;
+;;; Removed April 2022
+;;;
+;; (declare-function setup-x "x-stuff" ())
+;; (defun pedz-frame-hook ()
+;;   (interactive)
+;;   (if (or (eq window-system 'x)
+;;           (eq window-system 'ns))
+;;       (progn
+;;         (require 'x-stuff)
+;;         (setup-x))))
+;; (add-hook 'server-after-make-frame-hook #'pedz-frame-hook)
 
 ;; This is no longer needed / wanted.  I use to have the meta key the
 ;; same as the command key next to the space bar.  But that was
@@ -337,7 +342,33 @@ Call this to find the .prvmrc file and set emacs's environment up
 
 (isearch-define-mode-toggle zsh-manpage "z" zsh-manpage-search-regexp "\
 Searching zshall man page for where a concept is described")
+
+;;;
+;;; Use to be part of x-stuff.el but I just removed the file and put
+;;; what was useful here.
+;;;
 
+(defvar favorite-colors (list "DarkSlateGray1"
+			      "LavenderBlush2"
+			      "LightBlue1"
+			      "LightCyan2"
+			      "LightSteelBlue1"
+			      "LightYellow2"
+			      "SlateGray1"
+			      "bisque"
+			      "bisque1"
+			      "cornsilk2"
+			      "gray90"
+			      "honeydew2"
+			      "seashell2"
+			      "thistle2"
+			      "wheat1")
+  "List of my favorite background colors")
+
+(defun pick-random-color ()
+  "Picks a random color from favorite-colors"
+  (nth (random (length favorite-colors)) favorite-colors))
+
 ;; (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
 (provide 'pedz)
