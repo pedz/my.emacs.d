@@ -16,9 +16,11 @@
 ;; This uses Apple's path_helper which is this week's method of
 ;; setting up the PATH and MANPATH.  We then prepend ~/bin to PATH
 ;;
-(unless (string-match "pedz" (getenv "PATH"))
-  (let* ((path-helper "/usr/libexec/path_helper")
-         path-helper-output)
+(let* ((path-helper "/usr/libexec/path_helper")
+       path-helper-output)
+
+  (unless (and (string-match "pedz" (getenv "PATH"))
+               (file-executable-p path-helper))
     (setenv "PATH" "")                  ; For consistency, zap PATH back to an empty string
     (setenv "MANPATH" "")               ; ditto for MANPATH
     (setq path-helper-output (shell-command-to-string (concat path-helper " -c")))
