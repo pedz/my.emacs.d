@@ -18,9 +18,8 @@
 ;;
 (let* ((path-helper "/usr/libexec/path_helper")
        path-helper-output)
-
-  (unless (and (string-match "pedz" (getenv "PATH"))
-               (file-executable-p path-helper))
+  (unless (or (string-match (getenv "USER") (getenv "PATH"))
+	      (not (file-executable-p path-helper)))
     (setenv "PATH" "")                  ; For consistency, zap PATH back to an empty string
     (setenv "MANPATH" "")               ; ditto for MANPATH
     (setq path-helper-output (shell-command-to-string (concat path-helper " -c")))

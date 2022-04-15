@@ -79,7 +79,8 @@
 
 (define-key global-map (kbd "C-x C-b") 'electric-buffer-list)
 
-(server-start)
+;; We don't want this all the time.
+;; (server-start)
 
 ;;;
 ;;; Removed April 2022
