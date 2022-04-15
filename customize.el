@@ -43,6 +43,7 @@
  '(eval-expression-print-length nil)
  '(eval-expression-print-level nil)
  '(explicit-bash-args '("--noediting" "--login" "-i"))
+ '(explicit-zsh-args '("-l" "-i" "+Z"))
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
  '(helm-command-prefix-key "C-c h")
