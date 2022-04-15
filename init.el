@@ -47,6 +47,16 @@
 (dolist (dir '( "pedz" ))
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 
+;; Note: There are no explicit references to the variable `explicit-zsh-args'.
+;; It is used implicitly by M-x shell when the interactive shell is `zsh'.
+(defcustom explicit-zsh-args
+  ;; Tell zsh not to use ZLE.  Shell is interactive.
+  '("+Z" "-i")
+  "Args passed to inferior shell by \\[shell], if the shell is zsh.
+Value is a list of strings, which may be nil."
+  :type '(repeat (string :tag "Argument"))
+  :group 'shell)
+
 ;; Move the customizable values off to their own file and load that
 ;; file.  Not sure why I set custom-file but I do.
 ;;
