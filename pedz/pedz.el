@@ -372,4 +372,5 @@ Searching zshall man page for where a concept is described")
 
 ;; (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
+(require 'resize)
 (provide 'pedz)
