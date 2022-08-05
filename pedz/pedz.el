@@ -370,6 +370,17 @@ Searching zshall man page for where a concept is described")
   "Picks a random color from favorite-colors"
   (nth (random (length favorite-colors)) favorite-colors))
 
+;; Lua mode
+(defun add-lua-align-list ()
+  "Adds patterns to `align-rules-list'"
+  (add-to-list 'align-rules-list
+             '(lua-eq
+               (regexp . "\\(\\s-*\\)=")
+               (modes . '(lua-mode)))))
+
+(add-hook 'align-load-hook 'add-lua-align-list)
+
+
 ;; (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
 (require 'resize)
