@@ -381,6 +381,20 @@ Searching zshall man page for where a concept is described")
 (add-hook 'align-load-hook 'add-lua-align-list)
 
 
+(add-hook 'org-mode-hook #'org-clock-auto-clockout-insinuate)
+
+
+;; Tramp settings.  These are currently just for Docker while
+;; developing Hatred.  It would be nice to have them within the
+;; container somehow.
+;; 
+;; Note that customize.el also sets
+;; tramp-remote-path to '(tramp-own-remote-path))
+(add-to-list 'tramp-connection-properties
+             (list (regexp-quote "/docker:hatred-web-1:")
+                   "remote-shell" "/usr/bin/zsh"))
+
+
 ;; (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
 (require 'resize)

@@ -22,10 +22,7 @@
    ["black" "red" "green" "gold" "blue" "magenta" "darkturquoise" "dark green"])
  '(backup-by-copying t)
  '(backup-by-copying-when-linked t)
- '(backup-directory-alist
-   (list
-    (cons "."
-          (expand-file-name "backup" user-emacs-directory))))
+ '(backup-directory-alist '(("." . "~/.config/emacs/backup")))
  '(case-fold-search nil)
  '(default-frame-alist
     '((minibuffer . t)
@@ -85,6 +82,7 @@
  '(js2-global-externs '("jQuery" "$"))
  '(js2-include-gears-externs nil)
  '(js2-include-rhino-externs nil)
+ '(lua-indent-level 2)
  '(mac-emulate-three-button-mouse t)
  '(magit-repolist-columns
    '(("Name" 42 magit-repolist-column-ident nil)
@@ -114,6 +112,7 @@
  '(mmm-submode-decoration-level 2)
  '(mumamo-chunk-coloring 1 nil nil "let most of the page be uncolored and color only the sub-chunks")
  '(nxhtml-skip-welcome nil nil nil "Shh!!!")
+ '(org-clock-auto-clockout-timer 1800)
  '(package-archives
    '(("gnu" . "http://elpa.gnu.org/packages/")
      ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -124,31 +123,11 @@
  '(rspec-use-rake-flag nil)
  '(rspec-use-rake-when-possible nil)
  '(safe-local-variable-values
-   '((yari-ruby-program-name . "docker-compose --file /Users/pedz/Source/draft-test/t8/docker-compose.yml --env-file /Users/pedz/Source/draft-test/t8/.env exec -T web bundle exec ruby")
-     (yari-ri-program-name . "docker-compose --file /Users/pedz/Source/draft-test/t8/docker-compose.yml --env-file /Users/pedz/Source/draft-test/t8/.env exec -T web bundle exec ri")
-     (eval setenv "RI" "--doc-dir=/Users/pedz/Source/Rails6-Book/depot/.rdoc")
-     (yari-ruby-program-name . "bundle exec ruby")
-     (yari-ri-program-name . "bundle exec ri")
-     (yari-ruby-program-name . "docker-compose exec -T web bundle exec ruby")
-     (yari-ri-program-name . "docker-compose exec -T web bundle exec ri")
-     (yari-ruby-program-name . "docker run -it pedzsan/hatred bundle exec ruby")
-     (yari-ri-program-name . "docker run -it pedzsan/hatred bundle exec ri --doc-dir=./.rdoc")
-     (whitespace-style face tabs trailing lines-tail)
-     (encoding . utf-8)
-     (eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
-           (add-hook 'write-contents-functions
-                     (lambda nil
-                       (delete-trailing-whitespace)
-                       nil))
-           (require 'whitespace)
-           "Sometimes the mode needs to be toggled off and on."
-           (whitespace-mode 0)
-           (whitespace-mode 1))
-     (whitespace-line-column . 80)
-     (whitespace-style face trailing lines-tail)
-     (require-final-newline . t)))
+   '((yari-ruby-program-name . "docker exec hatred-web-1 bin/bundle exec ruby")
+     (yari-ri-program-name . "docker exec hatred-web-1 bin/bundle exec ri")))
  '(save-abbrevs nil)
  '(select-enable-primary t)
+ '(send-mail-function 'mailclient-send-it)
  '(shell-popd-regexp "popd\\|P")
  '(shell-prompt-pattern ".+@.+<[0-9]+> on .*
 ")
@@ -156,6 +135,7 @@
  '(split-width-threshold 1600)
  '(text-mode-hook '(text-mode-hook-identify flyspell-mode auto-fill-mode))
  '(tool-bar-mode nil)
+ '(tramp-remote-path '(tramp-own-remote-path))
  '(user-full-name "Perry Smith")
  '(user-mail-address "pedz@easesoftware.com")
  '(vc-ignore-dir-regexp "\\`\\([\\/][\\/]\\|/\\.\\.\\./\\|/net/\\|/afs/\\)\\'")
