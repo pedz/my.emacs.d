@@ -45,6 +45,8 @@
  '(feature-cucumber-command "cucumber {options} \"{feature}\"")
  '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
  '(helm-command-prefix-key "C-c h")
+ '(ignored-local-variable-values
+   '((eshell-path-env . "/hatred/bin:/usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-frame-alist
@@ -82,6 +84,8 @@
  '(js2-global-externs '("jQuery" "$"))
  '(js2-include-gears-externs nil)
  '(js2-include-rhino-externs nil)
+ '(lsp-disabled-clients '(typeprof-ls))
+ '(lsp-enable-snippet nil)
  '(lua-indent-level 2)
  '(mac-emulate-three-button-mouse t)
  '(magit-repolist-columns
@@ -111,19 +115,35 @@
  '(major-mode 'text-mode)
  '(mmm-submode-decoration-level 2)
  '(mumamo-chunk-coloring 1 nil nil "let most of the page be uncolored and color only the sub-chunks")
+ '(ns-right-alternate-modifier 'alt)
+ '(ns-right-command-modifier 'hyper)
  '(nxhtml-skip-welcome nil nil nil "Shh!!!")
  '(org-clock-auto-clockout-timer 1800)
- '(package-archives
-   '(("gnu" . "http://elpa.gnu.org/packages/")
-     ("marmalade" . "http://marmalade-repo.org/packages/")
-     ("melpa" . "http://melpa.milkbox.net/packages/")))
+ '(package-selected-packages '(company compat))
  '(rails-ws:default-server-type "webrick")
  '(rbenv-installation-dir "/Users/pedz/.config/rbenv")
  '(rspec-use-bundler-when-possible nil)
  '(rspec-use-rake-flag nil)
  '(rspec-use-rake-when-possible nil)
  '(safe-local-variable-values
-   '((yari-ruby-program-name . "docker exec hatred-web-1 bin/bundle exec ruby")
+   '((lsp-docker-default-client-configs
+      (:server-id 'ruby-ls :docker-server-id 'rubyls-docker :server-command "solargraph stdio"))
+     (lsp-docker-default-client-configs list
+                                        (list :server-id 'ruby-ls :docker-server-id 'rubyls-docker :server-command "solargraph stdio"))
+     (eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
+           (add-hook 'write-contents-functions
+                     (lambda nil
+                       (delete-trailing-whitespace)
+                       nil))
+           (require 'whitespace)
+           "Sometimes the mode needs to be toggled off and on."
+           (whitespace-mode 0)
+           (whitespace-mode 1))
+     (whitespace-line-column . 80)
+     (whitespace-style face tabs trailing lines-tail)
+     (yari-ruby-program-name . "./docker/compose-exec.sh -T web bundle exec ruby")
+     (yari-ri-program-name . "./docker/compose-exec.sh -T web bundle exec ri")
+     (yari-ruby-program-name . "docker exec hatred-web-1 bin/bundle exec ruby")
      (yari-ri-program-name . "docker exec hatred-web-1 bin/bundle exec ri")))
  '(save-abbrevs nil)
  '(select-enable-primary t)

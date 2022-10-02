@@ -74,10 +74,15 @@
         (interactive)
         (global-rbenv-mode)
         (rbenv-use-corresponding))
-      (add-hook 'ruby-mode-hook 'enable-rbenv-mode)))
+      (add-hook 'ruby-mode-hook #'enable-rbenv-mode))
+      (add-hook 'enh-ruby-mode-hook #'enable-rbenv-mode))
+
+(require 'lsp-mode)
+(add-hook 'ruby-mode-hook #'lsp)
+(add-hook 'enh-ruby-mode-hook #'lsp)
 
 
 ;; Try out web-mode for erb Rails templates
-;;(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 
 (provide 'ruby-setup)

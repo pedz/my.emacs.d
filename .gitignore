@@ -1,11 +1,14 @@
 *.elc
+.lsp-session-*
 ac-comphist.dat
 auto-save-list
 backup
 bookmarks
 el-get
+elpa
 eshell
 gsa_match_cache.el
+projectile-bookmarks.eld
 recentf
 tramp
 transient

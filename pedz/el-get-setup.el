@@ -15,7 +15,7 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+(add-to-list 'el-get-recipe-path (expand-file-name "el-get-user/recipes" user-emacs-directory))
 (el-get 'sync)
 
 (provide 'el-get-setup)

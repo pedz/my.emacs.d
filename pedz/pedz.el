@@ -395,6 +395,23 @@ Searching zshall man page for where a concept is described")
                    "remote-shell" "/usr/bin/zsh"))
 
 
+;; Stuff here for projectile mode and I've also added helm-projectile,
+;; projectile-rails, and rspec-mode.
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(projectile-rails-global-mode +1)
+(define-key projectile-rails-mode-map (kbd "s-r") 'projectile-rails-command-map)
+
+
+;; lsp-mode stuff
+
+
+;; tab-bar-mode
+(tab-bar-mode +1)
+(global-set-key (kbd "s-}") #'tab-next)
+(global-set-key (kbd "s-{") #'tab-previous)
+
+
 ;; (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
 (require 'ruby-setup)
 (require 'resize)
