@@ -1,3 +1,4 @@
+(and pedz-init-debug (message "begin resize"))
 (defun workarea-left ( monitor )
   "MONITOR is an entry from `display-monitor-attributes-list' The
 left entry (1st value) of the 'workarea' is returned"
@@ -67,3 +68,4 @@ of that monitor's screen."
     (set-frame-size nil width height)))
 
 (provide 'resize)
+(and pedz-init-debug (message "end resize"))

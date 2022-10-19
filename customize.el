@@ -46,7 +46,8 @@
  '(grep-find-ignored-directories (append vc-directory-exclusion-list (list ".bundle")))
  '(helm-command-prefix-key "C-c h")
  '(ignored-local-variable-values
-   '((eshell-path-env . "/hatred/bin:/usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")))
+   '((checkdoc-package-keywords-flag)
+     (eshell-path-env . "/hatred/bin:/usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-frame-alist
@@ -119,17 +120,16 @@
  '(ns-right-command-modifier 'hyper)
  '(nxhtml-skip-welcome nil nil nil "Shh!!!")
  '(org-clock-auto-clockout-timer 1800)
- '(package-selected-packages '(company compat))
+ '(package-selected-packages '(dash compat company))
  '(rails-ws:default-server-type "webrick")
  '(rbenv-installation-dir "/Users/pedz/.config/rbenv")
- '(rspec-use-bundler-when-possible nil)
  '(rspec-use-rake-flag nil)
  '(rspec-use-rake-when-possible nil)
  '(safe-local-variable-values
-   '((lsp-docker-default-client-configs
-      (:server-id 'ruby-ls :docker-server-id 'rubyls-docker :server-command "solargraph stdio"))
-     (lsp-docker-default-client-configs list
-                                        (list :server-id 'ruby-ls :docker-server-id 'rubyls-docker :server-command "solargraph stdio"))
+   '((eval lsp t)
+     (rspec-use-bundler-when-possible)
+     (rspec-use-docker-when-possible . t)
+     (rspec-docker-cwd . "/hatred/")
      (eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
            (add-hook 'write-contents-functions
                      (lambda nil
@@ -153,13 +153,16 @@
 ")
  '(shell-pushd-regexp "pushd\\|p")
  '(split-width-threshold 1600)
+ '(standard-indent 2)
  '(text-mode-hook '(text-mode-hook-identify flyspell-mode auto-fill-mode))
  '(tool-bar-mode nil)
+ '(tramp-auto-save-directory "(expand-file-name \"tramp\" user-emacs-directory)")
  '(tramp-remote-path '(tramp-own-remote-path))
  '(user-full-name "Perry Smith")
  '(user-mail-address "pedz@easesoftware.com")
  '(vc-ignore-dir-regexp "\\`\\([\\/][\\/]\\|/\\.\\.\\./\\|/net/\\|/afs/\\)\\'")
- '(version-control t))
+ '(version-control t)
+ '(web-mode-markup-indent-offset 2))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

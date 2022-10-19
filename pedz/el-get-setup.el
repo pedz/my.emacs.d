@@ -1,3 +1,4 @@
+(and pedz-init-debug (message "begin el-get-setup"))
 ;;; el-get-setup.el
 ;;
 ;; Code to load and get el-get running.  I no longer try to preload a
@@ -19,3 +20,4 @@
 (el-get 'sync)
 
 (provide 'el-get-setup)
+(and pedz-init-debug (message "end el-get-setup"))

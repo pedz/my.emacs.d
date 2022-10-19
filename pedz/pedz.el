@@ -1,3 +1,4 @@
+(and pedz-init-debug (message "begin pedz"))
 ;; (eval-when 'compile
 ;;   (add-to-list 'load-path (concat (file-name-directory byte-compile-current-file)
 ;; 				  "../el-get/helm")))
@@ -395,17 +396,6 @@ Searching zshall man page for where a concept is described")
                    "remote-shell" "/usr/bin/zsh"))
 
 
-;; Stuff here for projectile mode and I've also added helm-projectile,
-;; projectile-rails, and rspec-mode.
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(projectile-rails-global-mode +1)
-(define-key projectile-rails-mode-map (kbd "s-r") 'projectile-rails-command-map)
-
-
-;; lsp-mode stuff
-
-
 ;; tab-bar-mode
 (tab-bar-mode +1)
 (global-set-key (kbd "s-}") #'tab-next)
@@ -413,6 +403,9 @@ Searching zshall man page for where a concept is described")
 
 
 ;; (eval-when-compile (add-to-list 'load-path (expand-file-name ".")))
+(require 'helm-setup)
+(require 'projectile-setup)
 (require 'ruby-setup)
 (require 'resize)
 (provide 'pedz)
+(and pedz-init-debug (message "end pedz"))

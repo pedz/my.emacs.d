@@ -16,6 +16,7 @@
 ;; This uses Apple's path_helper which is this week's method of
 ;; setting up the PATH and MANPATH.  We then prepend ~/bin to PATH
 ;;
+(and pedz-init-debug (message "init.el"))
 (let* ((path-helper "/usr/libexec/path_helper")
        path-helper-output)
   (unless (or (string-match (getenv "USER") (getenv "PATH"))
@@ -39,14 +40,6 @@
 (dolist (dir (split-string (getenv "PATH") ":"))
   (add-to-list 'exec-path dir))
 
-;; load-path is where Emacs looks for lisp files.  I use to have
-;; several directories but now it is just the starting emacs directory
-;; and the "pedz" subdirectory.  el-get will add what it needs if /
-;; when it is configured.
-;;
-(dolist (dir '( "pedz" ))
-  (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
-
 ;; Note: There are no explicit references to the variable `explicit-zsh-args'.
 ;; It is used implicitly by M-x shell when the interactive shell is `zsh'.
 (defcustom explicit-zsh-args
@@ -60,13 +53,13 @@ Value is a list of strings, which may be nil."
 ;; Move the customizable values off to their own file and load that
 ;; file.  Not sure why I set custom-file but I do.
 ;;
+(and pedz-init-debug (message "before customize"))
 (setq custom-file (expand-file-name "customize.el" user-emacs-directory))
 (load custom-file)
 
-;; Now we finally load up the lisp files starting with the el-get
-;; setup.  This tends to change often.  And finishing up with
-;; helm-setup before I ofen get frustrated and remove it completely.
+;; I now pull in el-get-setup.el from early-init.el due to problems
+;; with dependencies and the packaging system.  My new strategy is to
+;; put everything into pedz.el and let it require things.
 ;;
-(require 'el-get-setup)
 (require 'pedz)
-(require 'helm-setup)                   ;Love / hate with Helm
+(and pedz-init-debug (message "end init.el"))
