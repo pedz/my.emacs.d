@@ -1,3 +1,5 @@
+/init.el
+/org-require.el
 *.elc
 .lsp-session-*
 ac-comphist.dat

@@ -1,4 +1,3 @@
-(and pedz-init-debug (message "begin prvm"))
 ;;
 ;; Simple routines to help use prvm
 ;;
@@ -58,4 +57,3 @@
 	  (beginning-of-line 2))))))
 
 (provide 'prvm)
-(and pedz-init-debug (message "end prvm"))

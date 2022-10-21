@@ -1,4 +1,3 @@
-(and pedz-init-debug (message "begin projectile-setup"))
 ;; if / when projectile is loaded, these will fire.  Originally I had
 ;; projectile only for Ruby projects since lsm-mode was what
 ;; introduced me to it.  But, I see that it is far more general
@@ -19,4 +18,3 @@
 (helm-projectile-on)
 
 (provide 'projectile-setup)
-(and pedz-init-debug (message "end projectile-setup"))

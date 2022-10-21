@@ -1,4 +1,3 @@
-(and pedz-init-debug (message "begin cscope-setup"))
 (defun remove-corfpga ()
     "removes the files in /corfpga/ part of the tree."
   (interactive)
@@ -47,4 +46,3 @@
   (remove-lncent))
 
 (provide 'cscope-setup)
-(and pedz-init-debug (message "end cscope-setup"))

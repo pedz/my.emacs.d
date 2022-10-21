@@ -1,4 +1,3 @@
-(and pedz-init-debug (message "begin lsp-docker-start"))
 (require 'lsp-docker)
 
 ;; In the lsp-mode directory (where lsp-mode.el lives) is a
@@ -69,4 +68,3 @@
  :client-configs lsp-docker-client-configs)
 
 (provide 'lsp-docker-start)
-(and pedz-init-debug (message "end lsp-docker-start"))

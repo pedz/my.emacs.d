@@ -1,0 +1,44 @@
+#+PROPERTY: header-args:emacs-lisp :comments link :tangle yes
+
+* Org Require
+
+In shifting from ~.el~ files to ~.org~ files, it seems prudent to have
+an ~org-require~ function similar to [[elisp:(describe-function 'require][require]] but will search and find
+the ~.org~ file and the ~.el~ file and if the ~.org~ file is younger
+or the ~.el~ file does not exist, then tangle the ~.org~ file to
+create the ~.el~ file and ultimately require the ~.el~ file.
+
+This needs to be in two steps because the [[file:init.org::+PROPERTY: header-args:emacs-lisp :comments link :tangle yes][init file]] needs to be
+created from [[file:early-init.el::(defvar pedz-init-debug nil][early-init]] but not loaded while the other files need to
+be created as well as [[elisp:(describe-function 'require)][require]]d.
+  
+#+begin_src emacs-lisp
+  (defun pedz/org-create-require ( sym )
+    "Given SYM, searches `load-path' until a file with a '.org' suffix
+  or a '.el' suffix is found.  If a file with a '.el' suffix is found
+  first (with no matching '.org' file), then SYM is required assuming it
+  will load from that file.  If a file with a '.org' suffix is found
+  then the file with the '.el' suffix will be created if it does not
+  already exist or if it is older than the file with the '.org' suffix."
+    (catch 'found
+      (dolist (path load-path)
+        (let* ((basename (symbol-name sym))
+               (org-path (expand-file-name (concat basename ".org") path))
+               (el-path (expand-file-name (concat basename ".el") path)))
+          ;; (pedz/debug org-path)
+          (cond
+           ((file-exists-p org-path)
+            (if (file-newer-than-file-p org-path el-path)
+                (progn
+                  (pedz/debug org-path)
+                  (org-babel-tangle-file org-path el-path)))
+            (throw 'found t))
+           ((file-exists-p el-path)
+            (throw 'found t)))))))
+
+  (defun pedz/org-require (sym)
+    "Call `pedz/org-create-require' and then `require' the SYM"
+    (pedz/org-create-require sym)
+    (pedz/debug "Loading %S" sym)
+    (require sym))
+#+end_src

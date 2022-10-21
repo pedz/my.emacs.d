@@ -1,5 +1,3 @@
-
-(and pedz-init-debug (message "begin helm-setup"))
 ;; From Tuhdo's Tutorial http://tuhdo.github.io/helm-intro.html with
 ;; somee changes -- see comments
 
@@ -87,4 +85,3 @@
       ))
     
 (provide 'helm-setup)
-(and pedz-init-debug (message "end helm-setup"))

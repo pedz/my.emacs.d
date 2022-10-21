@@ -1,0 +1,121 @@
+#+PROPERTY: header-args:emacs-lisp :comments link :tangle yes
+#+TITLE: Emacs Initialization
+#+AUTHOR: Perry Smith
+#+EMAIL: pedz@easesoftware.com
+
+* Set up code to help debugging at the front
+
+#+begin_src emacs-lisp
+  ;; Nifty for debugging load issues and sequences
+  ;; This puts out a Loading message all the time
+  ;; (setq force-load-messages t)
+  ;; (defadvice require (before load-log activate)
+  ;;   (message "Requiring %s" (ad-get-arg 0)))
+#+end_src
+
+* Set up [[https://github.com/dimitri/el-get][el-get]] early
+
+I'm not sure if I need to set this up early but after it is set up,
+all of the magical packages will be available.
+
+#+begin_src emacs-lisp
+  ;; Require el-get here before Emacs' package
+  (require 'el-get-setup)
+#+end_src
+
+* macOS path setup
+
+Over the years, macOS has changed how to set environment variables for
+programs launched by the Finder.  I eventually just gave up and
+initialize ~$PATH~ and ~$MANPATH~ via Elisp code.
+
+The proper way to configure ~$PATH~ and ~$MANPATH~ environment
+variables on macOS is to put files into ~/etc/paths.d~ and
+~/etc/manpaths.d~.  Then use ~/usr/libexec/path_helper~ to spew out
+the configured environment variables.
+
+Part of the code checks to see if ~$USER~ is in the ~$PATH~ somewhere
+already.  The theory is that I add in ~$HOME/bin~ into ~$PATH~ in my
+shell login scripts so if I find ~$USER~, I assume Emacs is being
+started from the command prompt and not by the Finder.
+
+I also prepend ~~/bin~ to ~$PATH~.  I currently don't do this for
+non-macOS systems.
+
+Sample output of what I am attempting to parse:
+#+begin_example
+setenv PATH "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/opt/X11/bin";
+setenv MANPATH "/usr/share/man:/usr/local/share/man:/usr/local/MacGPG2/share/man:/opt/homebrew/share/man:/opt/X11/share/man";
+#+end_example
+
+#+begin_src emacs-lisp
+  (if (eq system-type 'darwin)
+      (let* ((path-helper "/usr/libexec/path_helper")
+             path-helper-output)
+        (unless (or (string-match (getenv "USER") (getenv "PATH"))
+                    (not (file-executable-p path-helper)))
+          (setenv "PATH" "")                  ; For consistency, zap PATH back to an empty string
+          (setenv "MANPATH" "")               ; ditto for MANPATH
+          (setq path-helper-output (shell-command-to-string (concat path-helper " -c")))
+          (string-match "setenv \\([A-Z]+\\) \"\\([^\"]+\\)\";\nsetenv \\([A-Z]+\\) \"\\([^\"]+\\)\";\n"
+                        path-helper-output)
+          (setenv (match-string 1 path-helper-output) (match-string 2 path-helper-output))
+          (setenv (match-string 3 path-helper-output) (match-string 4 path-helper-output))
+          (setenv "PATH" (concat (expand-file-name "~/bin") ":" (getenv "PATH"))))))
+#+end_src
+
+* Modify exec-path
+
+[[elisp:(describe-variable 'exec-path)][exec-path]] starts with a list of directories which could include
+directories not in PATH.  A specific example are the directories that
+contain executables within the Emacs.app folder on macOS.
+
+This code takes each directory in PATH and adds it to the exec-path
+list.  The order will be munged but so far that hasn't bit me.
+
+#+begin_src emacs-lisp
+  (dolist (dir (split-string (getenv "PATH") ":"))
+    (add-to-list 'exec-path dir))
+#+end_src
+
+* Customize zsh should it be used within an inferior shell
+
+There are no explicit references to [[elisp:(describe-variable 'explicit-zsh-args)][explicit-zsh-args]].  It is used
+implicitly by [[elisp:(describe-function 'shell)][shell]] when the interactive shell is `zsh'.  This code
+tells zsh to not use ZLE and that the shell is interactive.  I'm not
+sure why I went to the trouble of making it customizable but I did.
+
+#+begin_src emacs-lisp
+  (defcustom explicit-zsh-args '("+Z" "-i")
+    "Args passed to inferior shell by \\[shell], if the shell is zsh.
+    Value is a list of strings, which may be nil."
+    :type '(repeat (string :tag "Argument"))
+    :group 'shell)
+#+end_src
+
+* Pull in customized variables
+
+The reason to set [[elisp:(describe-variable 'custom-file)][custom-file]] is because when a variable is written,
+this is the file that Emacs goes out and modifies.
+
+#+begin_src emacs-lisp
+  (setq custom-file (expand-file-name "customize.el" user-emacs-directory))
+  (load custom-file)
+#+end_src
+
+* Pull in ~pedz~
+
+Currently I have things split up into separate files all loaded by
+~pedz.el~.  This may change as I work on this set up.
+
+* Remainder of my original init.el file
+
+#+begin_src emacs-lisp
+  (pedz/org-require 'pedz)
+#+end_src
+
+* Set up creating Org mode code blocks easily.
+
+#+begin_src emacs-lisp
+  (pedz/org-require 'org-code-blocks)
+#+end_src

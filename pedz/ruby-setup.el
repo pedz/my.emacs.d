@@ -1,4 +1,3 @@
-(and pedz-init-debug (message "begin ruby-setup"))
 ;; Setup for rbenv mode
 (if (fboundp 'global-rbenv-mode)
     (progn
@@ -44,4 +43,3 @@
 
 
 (provide 'ruby-setup)
-(and pedz-init-debug (message "end ruby-setup"))
