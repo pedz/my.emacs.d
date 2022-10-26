@@ -1,0 +1,9 @@
+#+TITLE:  My Emacs Initialization
+#+AUTHOR: Perry Smith
+#+EMAIL:  pedz@easesoftware.com
+
+* my.emacs.d
+
++New git repository for my .emacs.d files based upon el-get+
+
+This has been replaced with my newer than new [[https://github.com/pedz/emacs][emacs]] repository.
